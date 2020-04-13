@@ -1,4 +1,4 @@
-pragma solidity >0.5.16 <0.6.0
+pragma solidity >=0.5.0 <0.6.0;
 import "./safemath.sol";
 
 contract GameTemplate {
@@ -21,16 +21,16 @@ contract GameTemplate {
     }
 
     struct Game {
-        address internal game_owner;
+        address game_owner;
         uint256 gameId;
-        uint256 public game_start;
-        uint256 public game_end;
-        Team public homeTeam;
-        Team public awayTeam;
-        string public winner;
-        string public score;
-        uint256 public pool;
-        mapping(address => Bid) public bids;
-        game_state public gameState;
+        uint256 game_start;
+        uint256 game_end;
+        Team homeTeam;
+        Team awayTeam;
+        string winner;
+        string score;
+        uint256 pool;
+        mapping(address => Bid) bids;
+        game_state gameState;
     }
 }
