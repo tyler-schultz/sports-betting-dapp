@@ -9,11 +9,12 @@ contract BallinChain is GameTemplate{
 
       event NewGame(uint gameId); //might want to emit some other variables
 
+      address internal contract_owner;
       Game[] public games;
       mapping (address => uint[]) userBiddingHistory;
 
-      function _createGame() internal{
-        //require contract owner to be able to create games
+      function _createGame() public only_owner {
+        //require contract owner to be able to create games, done via modifier
         //potentially fetch data from outside
         //get gameId from length of array
         //create game and push to games
@@ -25,6 +26,11 @@ contract BallinChain is GameTemplate{
         //do some parsing potentially
         //return result so creating games is smooth
       }
+
+       modifier only_owner(){
+           require(msg.sender==contract_owner);
+           _;
+       }
 
 
 }
@@ -57,10 +63,6 @@ contract BallinChain is GameTemplate{
 
        modifier game_finished(){
            require(now > game_end);
-           _;
-       }
-       modifier only_owner(){
-           require(msg.sender==game_owner);
            _;
        }
 

@@ -21,7 +21,6 @@ contract GameTemplate {
     }
 
     struct Game {
-        address game_owner;
         uint256 gameId;
         uint256 game_start;
         uint256 game_end;
