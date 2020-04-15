@@ -9,12 +9,12 @@ contract GameTemplate {
     struct Team {
         string teamName;
         string record;
-        uint totalBidders;
+        uint totalBetters;
     }
 
-    struct Bid {
-        string bidTeam;
-        uint bidAmount;
+    struct Bet {
+        string betTeam;
+        uint betAmount;
     }
 
     struct Game {
@@ -26,6 +26,6 @@ contract GameTemplate {
         string winner;
         string score;
         uint256 pool;
-        mapping(address => Bid) bids;
+        mapping(address => Bet) bets;
     }
 }

@@ -1,5 +1,4 @@
 pragma solidity >0.5.0 <0.6.0;
-pragma experimental ABIEncoderV2;
 import "./safemath.sol";
 import "./Game.sol";
 
@@ -9,12 +8,12 @@ contract BallinChain is GameTemplate{
     using SafeMath16 for uint16;
 
     address payable internal contract_owner;
-    Game[] public games;
-    mapping (address => uint[]) userBiddingHistory;
+    Game[] private games;
+    mapping (address => uint[]) userBettingHistory;
     mapping (string => uint[]) dateToGames;
 
     event NewGame(uint gameId, string date);
-    event BidEvent(address bidder, string team);
+    event BetEvent(address better, string team);
     event WithdrawalEvent(address withdrawer, uint amount);
     event CanceledGame(string reason, uint time);
     function() external{
@@ -24,38 +23,39 @@ contract BallinChain is GameTemplate{
     constructor () public{
         contract_owner = msg.sender;
     }
-    //Team NEEDS TO BE CHANGED TO COMPONENTS WITHIN TEAM
-    function _createGame(uint256 _gameStart, uint256 _gameEnd, Team memory _homeTeam, Team memory _awayTeam, string memory _date) public only_owner {
+
+    function _createGame(uint256 _gameStart, uint256 _gameEnd, string memory _homeTeamName, string memory _homeTeamRecord, string memory _awayTeamName, string memory _awayTeamRecord, string memory _date) public only_owner {
         uint256 gameId = games.length;
         games.push(Game(gameId, _gameStart, _gameEnd, _homeTeam, _awayTeam, "", "", 0));
         dateToGames[_date].push(gameId);
         emit NewGame(gameId, _date);
     }
-    //bid NEEDS TO BE CHANGED TO COMPONENTS WITHIN BID
-    function bidOnGame(uint256 _gameId, Bid memory _bid) public payable returns (bool){
-        require(msg.value > 0, "Bid must be greater than 0. Please try again.");
-        require(keccak256(abi.encodePacked(games[_gameId].bids[msg.sender].bidTeam)) == keccak256(abi.encodePacked("")) && games[_gameId].bids[msg.sender].bidAmount == 0, "You've already placed a bet.");
+
+    function betOnGame(uint256 _gameId, string memory _betTeam) public payable returns (bool){
+        require(msg.value > 0, "Bet must be greater than 0. Please try again.");
+        require(keccak256(abi.encodePacked(games[_gameId].bets[msg.sender].betTeam)) == keccak256(abi.encodePacked("")) && games[_gameId].bets[msg.sender].betAmount == 0, "You've already placed a bet.");
         require(_gameId < games.length && _gameId >= 0, "Please enter a valid GameId.");
-        require(keccak256(abi.encodePacked(_bid.bidTeam)) == keccak256(abi.encodePacked(games[_gameId].homeTeam.teamName)) || keccak256(abi.encodePacked(_bid.bidTeam)) == keccak256(abi.encodePacked(games[_gameId].awayTeam.teamName)), "Please enter a valid Team to bid on.");
-        require(now < games[_gameId].game_start, "Game has started. Bidding is closed.");
-        _bid.bidAmount = _bid.bidAmount.add(msg.value);
-        games[_gameId].pool = games[_gameId].pool.add(_bid.bidAmount);
-        games[_gameId].bids[msg.sender] = _bid;
-        if(keccak256(abi.encodePacked(_bid.bidTeam)) == keccak256(abi.encodePacked(games[_gameId].homeTeam.teamName))){
-            games[_gameId].homeTeam.totalBidders = games[_gameId].homeTeam.totalBidders.add(1);
+        require(keccak256(abi.encodePacked(_betTeam)) == keccak256(abi.encodePacked(games[_gameId].homeTeam.teamName)) || keccak256(abi.encodePacked(_betTeam)) == keccak256(abi.encodePacked(games[_gameId].awayTeam.teamName)), "Please enter a valid Team to bet on.");
+        require(now < games[_gameId].game_start, "Game has started. Betting is closed.");
+        uint betAmount = betAmount.add(msg.value);
+        games[_gameId].pool = games[_gameId].pool.add(betAmount);
+        games[_gameId].bets[msg.sender].betTeam = _betTeam;
+        games[_gameId].bets[msg.sender].betAmount = betAmount;
+        if(keccak256(abi.encodePacked(_betTeam)) == keccak256(abi.encodePacked(games[_gameId].homeTeam.teamName))){
+            games[_gameId].homeTeam.totalBetters = games[_gameId].homeTeam.totalBetters.add(1);
         }
         else{
-            games[_gameId].awayTeam.totalBidders = games[_gameId].awayTeam.totalBidders.add(1);
+            games[_gameId].awayTeam.totalBetters = games[_gameId].awayTeam.totalBetters.add(1);
         }
-        emit BidEvent(msg.sender, _bid.bidTeam);
+        emit BetEvent(msg.sender, _betTeam);
         return true;
     }
 
     function withdraw(uint _gameId) public returns (bool){
         require(keccak256(abi.encodePacked(games[_gameId].winner)) != keccak256(abi.encodePacked("")) && keccak256(abi.encodePacked(games[_gameId].score)) != keccak256(abi.encodePacked("")), "Final scores have not been entered yet.");
-        require(keccak256(abi.encodePacked(games[_gameId].bids[msg.sender].bidTeam)) == keccak256(abi.encodePacked(games[_gameId].winner)), "Sorry, the team you bet on didn't win.");
-        uint amount = games[_gameId].bids[msg.sender].bidAmount;
-        games[_gameId].bids[msg.sender].bidAmount = 0;
+        require(keccak256(abi.encodePacked(games[_gameId].bets[msg.sender].betTeam)) == keccak256(abi.encodePacked(games[_gameId].winner)), "Sorry, the team you bet on didn't win.");
+        uint amount = games[_gameId].bets[msg.sender].betAmount;
+        games[_gameId].bets[msg.sender].betAmount = 0;
         msg.sender.transfer(amount);
         emit WithdrawalEvent(msg.sender, amount);
         return true;
@@ -71,14 +71,27 @@ contract BallinChain is GameTemplate{
         require(now < games[_gameId].game_start, "Too late to cancel the game.");
         games[_gameId].game_start = now;
         emit CanceledGame(_reason, now);
-        // add functionality to return payments to bidders
+        // add functionality to return payments to betters
         return true;
     }
 
-    function contractBalance(uint _gameId) external view returns(uint){
+    function gameBalance(uint _gameId) external view returns(uint){
         return games[_gameId].pool;
     }
 
+    function gameInfo(uint _gameId) external view returns(string[]){
+        return ([games[_gameId].homeTeam.teamName, [games[_gameId].homeTeam.record, [games[_gameId].awayTeam.teamName, [games[_gameId].awayTeam.record, [games[_gameId].winner, [games[_gameId].score]);
+    }
+
+    function gameTimes(uint _gameId) external view returns(uint[]){
+        return ([games[_gameId].game_start, games[_gameId].game_end,]);
+    }
+
+    function gameBeTeam(uint _gameId) external view returns(string){
+        return
+    }
+
+    function
     modifier only_owner(){
         require(msg.sender == contract_owner, "Must be owner to use this function.");
         _;
