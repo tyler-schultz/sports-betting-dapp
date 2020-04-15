@@ -1,4 +1,5 @@
 pragma solidity >0.5.0 <0.6.0;
+pragma experimental ABIEncoderV2;
 import "./safemath.sol";
 import "./Game.sol";
 
@@ -26,7 +27,9 @@ contract BallinChain is GameTemplate{
 
     function _createGame(uint256 _gameStart, uint256 _gameEnd, string memory _homeTeamName, string memory _homeTeamRecord, string memory _awayTeamName, string memory _awayTeamRecord, string memory _date) public only_owner {
         uint256 gameId = games.length;
-        games.push(Game(gameId, _gameStart, _gameEnd, _homeTeam, _awayTeam, "", "", 0));
+        Team memory homeTeam = Team(_homeTeamName, _homeTeamRecord, 0);
+        Team memory awayTeam = Team(_awayTeamName, _awayTeamRecord, 0);
+        games.push(Game(gameId, _gameStart, _gameEnd, homeTeam, awayTeam, "", "", 0));
         dateToGames[_date].push(gameId);
         emit NewGame(gameId, _date);
     }
@@ -37,7 +40,8 @@ contract BallinChain is GameTemplate{
         require(_gameId < games.length && _gameId >= 0, "Please enter a valid GameId.");
         require(keccak256(abi.encodePacked(_betTeam)) == keccak256(abi.encodePacked(games[_gameId].homeTeam.teamName)) || keccak256(abi.encodePacked(_betTeam)) == keccak256(abi.encodePacked(games[_gameId].awayTeam.teamName)), "Please enter a valid Team to bet on.");
         require(now < games[_gameId].game_start, "Game has started. Betting is closed.");
-        uint betAmount = betAmount.add(msg.value);
+        uint betAmount = 0;
+        betAmount = betAmount.add(msg.value);
         games[_gameId].pool = games[_gameId].pool.add(betAmount);
         games[_gameId].bets[msg.sender].betTeam = _betTeam;
         games[_gameId].bets[msg.sender].betAmount = betAmount;
@@ -79,19 +83,22 @@ contract BallinChain is GameTemplate{
         return games[_gameId].pool;
     }
 
-    function gameInfo(uint _gameId) external view returns(string[]){
-        return ([games[_gameId].homeTeam.teamName, [games[_gameId].homeTeam.record, [games[_gameId].awayTeam.teamName, [games[_gameId].awayTeam.record, [games[_gameId].winner, [games[_gameId].score]);
+    function gameInfo(uint _gameId) external view returns(string[6] memory){
+        return [games[_gameId].homeTeam.teamName, games[_gameId].homeTeam.record, games[_gameId].awayTeam.teamName, games[_gameId].awayTeam.record, games[_gameId].winner, games[_gameId].score];
     }
 
-    function gameTimes(uint _gameId) external view returns(uint[]){
-        return ([games[_gameId].game_start, games[_gameId].game_end,]);
+    function gameTimes(uint _gameId) external view returns(uint[2] memory){
+        return [games[_gameId].game_start, games[_gameId].game_end];
     }
 
-    function gameBeTeam(uint _gameId) external view returns(string){
-        return
+    function gameBetTeam(uint _gameId) external view returns(string memory){
+        return games[_gameId].bets[msg.sender].betTeam;
     }
 
-    function
+    function gameBetAmount(uint _gameId) external view returns(uint){
+        return games[_gameId].bets[msg.sender].betAmount;
+    }
+
     modifier only_owner(){
         require(msg.sender == contract_owner, "Must be owner to use this function.");
         _;
