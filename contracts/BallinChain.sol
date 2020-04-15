@@ -24,14 +24,14 @@ contract BallinChain is GameTemplate{
     constructor () public{
         contract_owner = msg.sender;
     }
-
+    //Team NEEDS TO BE CHANGED TO COMPONENTS WITHIN TEAM
     function _createGame(uint256 _gameStart, uint256 _gameEnd, Team memory _homeTeam, Team memory _awayTeam, string memory _date) public only_owner {
         uint256 gameId = games.length;
         games.push(Game(gameId, _gameStart, _gameEnd, _homeTeam, _awayTeam, "", "", 0));
         dateToGames[_date].push(gameId);
         emit NewGame(gameId, _date);
     }
-
+    //bid NEEDS TO BE CHANGED TO COMPONENTS WITHIN BID
     function bidOnGame(uint256 _gameId, Bid memory _bid) public payable returns (bool){
         require(msg.value > 0, "Bid must be greater than 0. Please try again.");
         require(keccak256(abi.encodePacked(games[_gameId].bids[msg.sender].bidTeam)) == keccak256(abi.encodePacked("")) && games[_gameId].bids[msg.sender].bidAmount == 0, "You've already placed a bet.");
