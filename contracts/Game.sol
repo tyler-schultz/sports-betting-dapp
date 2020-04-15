@@ -28,19 +28,4 @@ contract GameTemplate {
         uint256 pool;
         mapping(address => Bid) bids;
     }
-
-    modifier only_owner(){
-        require(msg.sender==contract_owner);
-        _;
-    }
-
-    modifier game_yet_to_start(){
-        require(now < game_start);
-        _;
-    }
-
-    modifier game_finished(){
-        require(now > game_end);
-        _;
-    }
 }
