@@ -17,6 +17,7 @@ contract BallinChain is GameTemplate{
     event BetEvent(address better, string team);
     event WithdrawalEvent(address withdrawer, uint amount);
     event CanceledGame(string reason, uint time);
+
     function() external{
 
     }
@@ -25,11 +26,11 @@ contract BallinChain is GameTemplate{
         contract_owner = msg.sender;
     }
 
-    function _createGame(uint256 _gameStart, uint256 _gameEnd, string memory _date, string memory _homeTeamName, string memory _homeTeamRecord, string memory _awayTeamName, string memory _awayTeamRecord, string memory _date) public only_owner {
+    function _createGame(uint256 _gameStart, uint256 _gameEnd, string memory _date, string memory _homeTeamName, string memory _homeTeamRecord, string memory _awayTeamName, string memory _awayTeamRecord) public only_owner() {
         uint256 gameId = games.length;
-        Team memory homeTeam = Team(_homeTeamName, _homeTeamRecord, 0);
-        Team memory awayTeam = Team(_awayTeamName, _awayTeamRecord, 0);
-        games.push(Game(gameId, _gameStart, _gameEnd, _date, homeTeam, awayTeam, "", "", 0));
+        Team memory homeTeam = Team(_homeTeamName, _homeTeamRecord, 0, 0);
+        Team memory awayTeam = Team(_awayTeamName, _awayTeamRecord, 0, 0);
+        games.push(Game(gameId, _gameStart, _gameEnd, _date, homeTeam, awayTeam, "", "", 0, 0));
         dateToGames[_date].push(gameId);
         emit NewGame(gameId, _date);
     }
@@ -70,13 +71,13 @@ contract BallinChain is GameTemplate{
         games[_gameId].winner = _winner;
         games[_gameId].score = _score;
         uint256 totalBets = 0;
-        totalBets = totalbets.add(games[_gamId].homeTeam.totalBetters);
-        totalBets = totalbets.add(games[_gamId].awayTeam.totalBetters);
+        totalBets = totalBets.add(games[_gameId].homeTeam.totalBetters);
+        totalBets = totalBets.add(games[_gameId].awayTeam.totalBetters);
         if(totalBets > 1){
             uint cut = games[_gameId].pool.div(10);
-            games[_gamId].pool = games[_gameId].pool.sub(cut);
-            games[_gameId].finalPool = pool;
-            contract_owner.transfer(amount);
+            games[_gameId].pool = games[_gameId].pool.sub(cut);
+            games[_gameId].finalPool = games[_gameId].pool;
+            msg.sender.transfer(cut);
         }
         return true;
     }
@@ -94,21 +95,21 @@ contract BallinChain is GameTemplate{
         return games[_gameId].pool;
     }
 
-    function getGamedData(uint _gameId) external view returns(uint gameStart, uint gameEnd, string memory date, string memory homeTeamName, string memory homeTeamRecord, uint homeTeamBetters, string memory awayTeamName, string memory awayTeamRecord, stiring memory awayTeamBetters, string memory winner, string memory score){
+    function getGamedData(uint _gameId) external view returns(uint gameStart, uint gameEnd, string memory date, string memory homeTeamName, string memory homeTeamRecord, uint homeTeamBetters, string memory awayTeamName, string memory awayTeamRecord, uint awayTeamBetters, string memory winner, string memory score){
         gameStart = games[_gameId].game_start;
         gameEnd = games[_gameId].game_end;
         date = games[_gameId].date;
         homeTeamName = games[_gameId].homeTeam.teamName;
-        homeTeamRecord = games[_gameId].homeTeam.teamRecord;
+        homeTeamRecord = games[_gameId].homeTeam.record;
         homeTeamBetters = games[_gameId].homeTeam.totalBetters;
         awayTeamName = games[_gameId].awayTeam.teamName;
-        awayTeamRecord = games[_gameId].awayTeam.teamRecord;
+        awayTeamRecord = games[_gameId].awayTeam.record;
         awayTeamBetters = games[_gameId].awayTeam.totalBetters;
         winner = games[_gameId].winner;
         score = games[_gameId].score;
     }
 
-    function totalGamesToday(string memory _date) external view returns(uint){
+    function totalGamesToday(string calldata _date) external view returns(uint){
         return dateToGames[_date].length;
     }
 
@@ -118,7 +119,7 @@ contract BallinChain is GameTemplate{
 
     function getGameBetData(uint _gameId) external view returns(string memory bettingTeam, uint betAmount){
         bettingTeam = games[_gameId].bets[msg.sender].betTeam;
-        bettingTeam = games[_gameId].bets[msg.sender].betAmount;
+        betAmount = games[_gameId].bets[msg.sender].betAmount;
 
     }
 

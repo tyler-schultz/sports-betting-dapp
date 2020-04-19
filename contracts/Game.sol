@@ -28,7 +28,7 @@ contract GameTemplate {
         string winner;
         string score;
         uint256 pool;
-        mapping(address => Bet) bets;
         uint256 finalPool;
+        mapping(address => Bet) bets;
     }
 }
