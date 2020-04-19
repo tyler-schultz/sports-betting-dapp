@@ -10,6 +10,7 @@ contract GameTemplate {
         string teamName;
         string record;
         uint totalBetters;
+        uint totalAmount;
     }
 
     struct Bet {
@@ -21,11 +22,13 @@ contract GameTemplate {
         uint256 gameId;
         uint256 game_start;
         uint256 game_end;
+        string date;
         Team homeTeam;
         Team awayTeam;
         string winner;
         string score;
         uint256 pool;
         mapping(address => Bet) bets;
+        uint256 finalPool;
     }
 }
