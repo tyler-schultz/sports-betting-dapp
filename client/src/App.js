@@ -35,23 +35,15 @@ class App extends Component {
                 deployedNetwork && deployedNetwork.address
             );
 
-            //  log basic info to show we are alive
-            const mySym = await BC.methods.symbol().call();
-            console.log("my symbol", mySym);
-            console.log("accounts", accounts);
-
-            let purchaserBCCount = await BC.methods
-                .balanceOf(purchaserAddress)
-                .call();
-            purchaserBCCount /= 1e18;
+            const gameData = await this.state.BC.methods.getGamedData(0).call();
 
             // Write web3, accounts, and contract and all other info to the state
             this.setState({
                 web3: web3,
                 accounts: accounts,
                 BC,
-
-                purchaserAddress
+                purchaserAddress,
+                gameData
             });
         } catch (error) {
             // Catch any errors for any of the above operations.
@@ -63,10 +55,12 @@ class App extends Component {
     }
 
     render() {
+        console.log(this.gameStart);
         return (
-            <Bet
-        state = {this.state}
-        gameId = "3" />
+            <div>
+                Game 0 Start: {this.state.gameData["gameStart"]}{"\n"}
+                <Bet state={this.state} gameId="1" />
+            </div>
     );
     }
 }
