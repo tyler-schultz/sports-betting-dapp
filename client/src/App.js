@@ -35,16 +35,17 @@ class App extends Component {
                 deployedNetwork && deployedNetwork.address
             );
 
-            const gameData = await this.state.BC.methods.getGamedData(0).call();
-
             // Write web3, accounts, and contract and all other info to the state
             this.setState({
                 web3: web3,
                 accounts: accounts,
                 BC,
-                purchaserAddress,
-                gameData
+                purchaserAddress
             });
+
+            let gameData = await this.state.BC.methods.getGamedData(0).call();
+            let gameStart = gameData["gameStart"];
+            console.log(gameStart);
         } catch (error) {
             // Catch any errors for any of the above operations.
             alert(
@@ -58,7 +59,7 @@ class App extends Component {
         console.log(this.gameStart);
         return (
             <div>
-                Game 0 Start: {this.state.gameData["gameStart"]}{"\n"}
+                Game 0 Start: {this.gameStart}{"\n"}
                 <Bet state={this.state} gameId="1" />
             </div>
     );
