@@ -8,13 +8,11 @@ class Admin extends Component {
 
     render() {
         return (
-            <Container>
                 <Modal isOpen={this.props.isAdminOpen} toggle={this.props.toggleAdminOpen} centered={true}>
                     <ModalBody>
                         <Button>TEST</Button>
                     </ModalBody>
                 </Modal>
-            </Container>
         );
     }
 }

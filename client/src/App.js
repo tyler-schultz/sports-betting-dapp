@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Button } from "reactstrap";
 import BallinChainContract from "./BallinChain.json";
 import getWeb3 from "./utils/getWeb3.js";
 import GameFrame from "./components/GameFrame"
@@ -6,17 +7,22 @@ import "./style/App.css";
 import Admin from "./components/Admin";
 
 class App extends Component {
-    state = {
-        web3: null,
-        accounts: null,
-        BC: {},
+    constructor(props) {
+        super(props);
+        this.state = {
+            web3: null,
+            accounts: null,
+            BC: {},
 
-        loading: false,
-        value: "",
-        message: "",
-        contractOwner: "0x7cFe7dE72c30dd49b5bcEB0d6831Ab55bd718de0",
-        isAdminOpen: false
-    };
+            loading: false,
+            value: "",
+            message: "",
+            contractOwner: "0x7cFe7dE72c30dd49b5bcEB0d6831Ab55bd718de0",
+            isAdminOpen: false,
+            isAdmin: false
+        };
+        this.toggleAdminOpen = this.toggleAdminOpen.bind(this);
+    }
 
     componentDidMount = async () => {
         //
@@ -41,16 +47,14 @@ class App extends Component {
             );
 
             // Write web3, accounts, and contract and all other info to the state
+            let totalUserBets = await BC.methods.totalUserBets().call();
             this.setState({
                 web3: web3,
                 accounts: accounts,
                 BC,
                 purchaserAddress,
+                isAdmin: (purchaserAddress === this.state.contractOwner),
                 compactPurchaserAddress,
-            });
-
-            let totalUserBets = await this.state.BC.methods.totalUserBets().call();
-            this.setState({
                 totalUserBets
             });
 
@@ -62,14 +66,6 @@ class App extends Component {
             console.log(error);
         }
     };
-
-    /*
-    <div>
-    Game 0 Start: {this.state.gameStart}{"\n"}
-    <Bet state={this.state} gameId="1" />
-    </div>
-     */
-
 
     render() {
         return (
@@ -100,7 +96,8 @@ class App extends Component {
                     <br />
                     <strong>Your total bets</strong><br />
                     {this.state.totalUserBets}
-                    {this.state.isAdmin && <div>TAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANNNNNNNNNNNNNEEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRRRRRRRRRRRRRRR</div>}
+                    <br />
+                    {this.state.isAdmin && <Button onClick={this.toggleAdminOpen}>Admin</Button>}
                     <footer>&copy; 2020</footer>
                 </nav>
                 <main>
