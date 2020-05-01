@@ -1,0 +1,1296 @@
+{
+  "contractName": "GameTemplate",
+  "abi": [],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/home/tanner/CS483/FinalBallinChain/contracts/Game.sol\":\"GameTemplate\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/tanner/CS483/FinalBallinChain/contracts/Game.sol\":{\"keccak256\":\"0x4a252ffc1c85cd1b6a776a2c5e2c606abf5a6ba8003ea5544a7313f568bced2c\",\"urls\":[\"bzz-raw://89481db5cf0d9b2b06a1188d4f14de8955ec75664bf7d6123ec880c8572c892a\",\"dweb:/ipfs/QmSdf3JpE5ibjTgVJ72VYN59ARaHMNqbmCTnsd5UV2YZB3\"]},\"/home/tanner/CS483/FinalBallinChain/contracts/safemath.sol\":{\"keccak256\":\"0x48e6e2f37175d447ddeaab3326b39c6ed46b00bfa27fb3de57d90a44791a3cfa\",\"urls\":[\"bzz-raw://2a9c2019bbad48f7618a63e27b7b4951f1684704a46edf2519f0356b520f6e96\",\"dweb:/ipfs/QmPx4ofqT1ahHyqLk2QfLvcirvAAwiwUMaN73mhgJduJHo\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603e80601d6000396000f3fe6080604052600080fdfea265627a7a723158208a5ef11f1e67b8052211a23fbb7793d36d84af5eb64df64aa12644918c6ab3cb64736f6c63430005100032",
+  "deployedBytecode": "0x6080604052600080fdfea265627a7a723158208a5ef11f1e67b8052211a23fbb7793d36d84af5eb64df64aa12644918c6ab3cb64736f6c63430005100032",
+  "sourceMap": "58:623:1:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;58:623:1;;;;;;;",
+  "deployedSourceMap": "58:623:1:-;;;;;",
+  "source": "pragma solidity >=0.5.0 <0.6.0;\nimport \"./safemath.sol\";\n\ncontract GameTemplate {\n    using SafeMath for uint256;\n    using SafeMath32 for uint32;\n    using SafeMath16 for uint16;\n\n    struct Team {\n        string teamName;\n        string record;\n        uint totalBetters;\n        uint totalAmount;\n    }\n\n    struct Bet {\n        string betTeam;\n        uint betAmount;\n    }\n\n    struct Game {\n        uint256 gameId;\n        uint256 game_start;\n        uint256 game_end;\n        string date;\n        Team homeTeam;\n        Team awayTeam;\n        string winner;\n        string score;\n        uint256 pool;\n        uint256 finalPool;\n        mapping(address => Bet) bets;\n    }\n}\n",
+  "sourcePath": "/home/tanner/CS483/FinalBallinChain/contracts/Game.sol",
+  "ast": {
+    "absolutePath": "/home/tanner/CS483/FinalBallinChain/contracts/Game.sol",
+    "exportedSymbols": {
+      "GameTemplate": [
+        1284
+      ]
+    },
+    "id": 1285,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1234,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:1"
+      },
+      {
+        "absolutePath": "/home/tanner/CS483/FinalBallinChain/contracts/safemath.sol",
+        "file": "./safemath.sol",
+        "id": 1235,
+        "nodeType": "ImportDirective",
+        "scope": 1285,
+        "sourceUnit": 1612,
+        "src": "32:24:1",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 1284,
+        "linearizedBaseContracts": [
+          1284
+        ],
+        "name": "GameTemplate",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "id": 1238,
+            "libraryName": {
+              "contractScope": null,
+              "id": 1236,
+              "name": "SafeMath",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1419,
+              "src": "92:8:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_SafeMath_$1419",
+                "typeString": "library SafeMath"
+              }
+            },
+            "nodeType": "UsingForDirective",
+            "src": "86:27:1",
+            "typeName": {
+              "id": 1237,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "105:7:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            }
+          },
+          {
+            "id": 1241,
+            "libraryName": {
+              "contractScope": null,
+              "id": 1239,
+              "name": "SafeMath32",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1515,
+              "src": "124:10:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_SafeMath32_$1515",
+                "typeString": "library SafeMath32"
+              }
+            },
+            "nodeType": "UsingForDirective",
+            "src": "118:28:1",
+            "typeName": {
+              "id": 1240,
+              "name": "uint32",
+              "nodeType": "ElementaryTypeName",
+              "src": "139:6:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint32",
+                "typeString": "uint32"
+              }
+            }
+          },
+          {
+            "id": 1244,
+            "libraryName": {
+              "contractScope": null,
+              "id": 1242,
+              "name": "SafeMath16",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1611,
+              "src": "157:10:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_SafeMath16_$1611",
+                "typeString": "library SafeMath16"
+              }
+            },
+            "nodeType": "UsingForDirective",
+            "src": "151:28:1",
+            "typeName": {
+              "id": 1243,
+              "name": "uint16",
+              "nodeType": "ElementaryTypeName",
+              "src": "172:6:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint16",
+                "typeString": "uint16"
+              }
+            }
+          },
+          {
+            "canonicalName": "GameTemplate.Team",
+            "id": 1253,
+            "members": [
+              {
+                "constant": false,
+                "id": 1246,
+                "name": "teamName",
+                "nodeType": "VariableDeclaration",
+                "scope": 1253,
+                "src": "207:15:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 1245,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "207:6:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1248,
+                "name": "record",
+                "nodeType": "VariableDeclaration",
+                "scope": 1253,
+                "src": "232:13:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 1247,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "232:6:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1250,
+                "name": "totalBetters",
+                "nodeType": "VariableDeclaration",
+                "scope": 1253,
+                "src": "255:17:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1249,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "255:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1252,
+                "name": "totalAmount",
+                "nodeType": "VariableDeclaration",
+                "scope": 1253,
+                "src": "282:16:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1251,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "282:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Team",
+            "nodeType": "StructDefinition",
+            "scope": 1284,
+            "src": "185:120:1",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "GameTemplate.Bet",
+            "id": 1258,
+            "members": [
+              {
+                "constant": false,
+                "id": 1255,
+                "name": "betTeam",
+                "nodeType": "VariableDeclaration",
+                "scope": 1258,
+                "src": "332:14:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 1254,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "332:6:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1257,
+                "name": "betAmount",
+                "nodeType": "VariableDeclaration",
+                "scope": 1258,
+                "src": "356:14:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1256,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "356:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Bet",
+            "nodeType": "StructDefinition",
+            "scope": 1284,
+            "src": "311:66:1",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "GameTemplate.Game",
+            "id": 1283,
+            "members": [
+              {
+                "constant": false,
+                "id": 1260,
+                "name": "gameId",
+                "nodeType": "VariableDeclaration",
+                "scope": 1283,
+                "src": "405:14:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1259,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "405:7:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1262,
+                "name": "game_start",
+                "nodeType": "VariableDeclaration",
+                "scope": 1283,
+                "src": "429:18:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1261,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "429:7:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1264,
+                "name": "game_end",
+                "nodeType": "VariableDeclaration",
+                "scope": 1283,
+                "src": "457:16:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1263,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "457:7:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1266,
+                "name": "date",
+                "nodeType": "VariableDeclaration",
+                "scope": 1283,
+                "src": "483:11:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 1265,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "483:6:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1268,
+                "name": "homeTeam",
+                "nodeType": "VariableDeclaration",
+                "scope": 1283,
+                "src": "504:13:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Team_$1253_storage_ptr",
+                  "typeString": "struct GameTemplate.Team"
+                },
+                "typeName": {
+                  "contractScope": null,
+                  "id": 1267,
+                  "name": "Team",
+                  "nodeType": "UserDefinedTypeName",
+                  "referencedDeclaration": 1253,
+                  "src": "504:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_Team_$1253_storage_ptr",
+                    "typeString": "struct GameTemplate.Team"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1270,
+                "name": "awayTeam",
+                "nodeType": "VariableDeclaration",
+                "scope": 1283,
+                "src": "527:13:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Team_$1253_storage_ptr",
+                  "typeString": "struct GameTemplate.Team"
+                },
+                "typeName": {
+                  "contractScope": null,
+                  "id": 1269,
+                  "name": "Team",
+                  "nodeType": "UserDefinedTypeName",
+                  "referencedDeclaration": 1253,
+                  "src": "527:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_Team_$1253_storage_ptr",
+                    "typeString": "struct GameTemplate.Team"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1272,
+                "name": "winner",
+                "nodeType": "VariableDeclaration",
+                "scope": 1283,
+                "src": "550:13:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 1271,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "550:6:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1274,
+                "name": "score",
+                "nodeType": "VariableDeclaration",
+                "scope": 1283,
+                "src": "573:12:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 1273,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "573:6:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1276,
+                "name": "pool",
+                "nodeType": "VariableDeclaration",
+                "scope": 1283,
+                "src": "595:12:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1275,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "595:7:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1278,
+                "name": "finalPool",
+                "nodeType": "VariableDeclaration",
+                "scope": 1283,
+                "src": "617:17:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1277,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "617:7:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1282,
+                "name": "bets",
+                "nodeType": "VariableDeclaration",
+                "scope": 1283,
+                "src": "644:28:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Bet_$1258_storage_$",
+                  "typeString": "mapping(address => struct GameTemplate.Bet)"
+                },
+                "typeName": {
+                  "id": 1281,
+                  "keyType": {
+                    "id": 1279,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "652:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "nodeType": "Mapping",
+                  "src": "644:23:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Bet_$1258_storage_$",
+                    "typeString": "mapping(address => struct GameTemplate.Bet)"
+                  },
+                  "valueType": {
+                    "contractScope": null,
+                    "id": 1280,
+                    "name": "Bet",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 1258,
+                    "src": "663:3:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Bet_$1258_storage_ptr",
+                      "typeString": "struct GameTemplate.Bet"
+                    }
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Game",
+            "nodeType": "StructDefinition",
+            "scope": 1284,
+            "src": "383:296:1",
+            "visibility": "public"
+          }
+        ],
+        "scope": 1285,
+        "src": "58:623:1"
+      }
+    ],
+    "src": "0:682:1"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/tanner/CS483/FinalBallinChain/contracts/Game.sol",
+    "exportedSymbols": {
+      "GameTemplate": [
+        1284
+      ]
+    },
+    "id": 1285,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1234,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:1"
+      },
+      {
+        "absolutePath": "/home/tanner/CS483/FinalBallinChain/contracts/safemath.sol",
+        "file": "./safemath.sol",
+        "id": 1235,
+        "nodeType": "ImportDirective",
+        "scope": 1285,
+        "sourceUnit": 1612,
+        "src": "32:24:1",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 1284,
+        "linearizedBaseContracts": [
+          1284
+        ],
+        "name": "GameTemplate",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "id": 1238,
+            "libraryName": {
+              "contractScope": null,
+              "id": 1236,
+              "name": "SafeMath",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1419,
+              "src": "92:8:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_SafeMath_$1419",
+                "typeString": "library SafeMath"
+              }
+            },
+            "nodeType": "UsingForDirective",
+            "src": "86:27:1",
+            "typeName": {
+              "id": 1237,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "105:7:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            }
+          },
+          {
+            "id": 1241,
+            "libraryName": {
+              "contractScope": null,
+              "id": 1239,
+              "name": "SafeMath32",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1515,
+              "src": "124:10:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_SafeMath32_$1515",
+                "typeString": "library SafeMath32"
+              }
+            },
+            "nodeType": "UsingForDirective",
+            "src": "118:28:1",
+            "typeName": {
+              "id": 1240,
+              "name": "uint32",
+              "nodeType": "ElementaryTypeName",
+              "src": "139:6:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint32",
+                "typeString": "uint32"
+              }
+            }
+          },
+          {
+            "id": 1244,
+            "libraryName": {
+              "contractScope": null,
+              "id": 1242,
+              "name": "SafeMath16",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1611,
+              "src": "157:10:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_SafeMath16_$1611",
+                "typeString": "library SafeMath16"
+              }
+            },
+            "nodeType": "UsingForDirective",
+            "src": "151:28:1",
+            "typeName": {
+              "id": 1243,
+              "name": "uint16",
+              "nodeType": "ElementaryTypeName",
+              "src": "172:6:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint16",
+                "typeString": "uint16"
+              }
+            }
+          },
+          {
+            "canonicalName": "GameTemplate.Team",
+            "id": 1253,
+            "members": [
+              {
+                "constant": false,
+                "id": 1246,
+                "name": "teamName",
+                "nodeType": "VariableDeclaration",
+                "scope": 1253,
+                "src": "207:15:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 1245,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "207:6:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1248,
+                "name": "record",
+                "nodeType": "VariableDeclaration",
+                "scope": 1253,
+                "src": "232:13:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 1247,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "232:6:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1250,
+                "name": "totalBetters",
+                "nodeType": "VariableDeclaration",
+                "scope": 1253,
+                "src": "255:17:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1249,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "255:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1252,
+                "name": "totalAmount",
+                "nodeType": "VariableDeclaration",
+                "scope": 1253,
+                "src": "282:16:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1251,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "282:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Team",
+            "nodeType": "StructDefinition",
+            "scope": 1284,
+            "src": "185:120:1",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "GameTemplate.Bet",
+            "id": 1258,
+            "members": [
+              {
+                "constant": false,
+                "id": 1255,
+                "name": "betTeam",
+                "nodeType": "VariableDeclaration",
+                "scope": 1258,
+                "src": "332:14:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 1254,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "332:6:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1257,
+                "name": "betAmount",
+                "nodeType": "VariableDeclaration",
+                "scope": 1258,
+                "src": "356:14:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1256,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "356:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Bet",
+            "nodeType": "StructDefinition",
+            "scope": 1284,
+            "src": "311:66:1",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "GameTemplate.Game",
+            "id": 1283,
+            "members": [
+              {
+                "constant": false,
+                "id": 1260,
+                "name": "gameId",
+                "nodeType": "VariableDeclaration",
+                "scope": 1283,
+                "src": "405:14:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1259,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "405:7:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1262,
+                "name": "game_start",
+                "nodeType": "VariableDeclaration",
+                "scope": 1283,
+                "src": "429:18:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1261,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "429:7:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1264,
+                "name": "game_end",
+                "nodeType": "VariableDeclaration",
+                "scope": 1283,
+                "src": "457:16:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1263,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "457:7:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1266,
+                "name": "date",
+                "nodeType": "VariableDeclaration",
+                "scope": 1283,
+                "src": "483:11:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 1265,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "483:6:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1268,
+                "name": "homeTeam",
+                "nodeType": "VariableDeclaration",
+                "scope": 1283,
+                "src": "504:13:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Team_$1253_storage_ptr",
+                  "typeString": "struct GameTemplate.Team"
+                },
+                "typeName": {
+                  "contractScope": null,
+                  "id": 1267,
+                  "name": "Team",
+                  "nodeType": "UserDefinedTypeName",
+                  "referencedDeclaration": 1253,
+                  "src": "504:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_Team_$1253_storage_ptr",
+                    "typeString": "struct GameTemplate.Team"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1270,
+                "name": "awayTeam",
+                "nodeType": "VariableDeclaration",
+                "scope": 1283,
+                "src": "527:13:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Team_$1253_storage_ptr",
+                  "typeString": "struct GameTemplate.Team"
+                },
+                "typeName": {
+                  "contractScope": null,
+                  "id": 1269,
+                  "name": "Team",
+                  "nodeType": "UserDefinedTypeName",
+                  "referencedDeclaration": 1253,
+                  "src": "527:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_Team_$1253_storage_ptr",
+                    "typeString": "struct GameTemplate.Team"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1272,
+                "name": "winner",
+                "nodeType": "VariableDeclaration",
+                "scope": 1283,
+                "src": "550:13:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 1271,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "550:6:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1274,
+                "name": "score",
+                "nodeType": "VariableDeclaration",
+                "scope": 1283,
+                "src": "573:12:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 1273,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "573:6:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1276,
+                "name": "pool",
+                "nodeType": "VariableDeclaration",
+                "scope": 1283,
+                "src": "595:12:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1275,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "595:7:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1278,
+                "name": "finalPool",
+                "nodeType": "VariableDeclaration",
+                "scope": 1283,
+                "src": "617:17:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 1277,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "617:7:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1282,
+                "name": "bets",
+                "nodeType": "VariableDeclaration",
+                "scope": 1283,
+                "src": "644:28:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Bet_$1258_storage_$",
+                  "typeString": "mapping(address => struct GameTemplate.Bet)"
+                },
+                "typeName": {
+                  "id": 1281,
+                  "keyType": {
+                    "id": 1279,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "652:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "nodeType": "Mapping",
+                  "src": "644:23:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Bet_$1258_storage_$",
+                    "typeString": "mapping(address => struct GameTemplate.Bet)"
+                  },
+                  "valueType": {
+                    "contractScope": null,
+                    "id": 1280,
+                    "name": "Bet",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 1258,
+                    "src": "663:3:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Bet_$1258_storage_ptr",
+                      "typeString": "struct GameTemplate.Bet"
+                    }
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Game",
+            "nodeType": "StructDefinition",
+            "scope": 1284,
+            "src": "383:296:1",
+            "visibility": "public"
+          }
+        ],
+        "scope": 1285,
+        "src": "58:623:1"
+      }
+    ],
+    "src": "0:682:1"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.1.0",
+  "updatedAt": "2020-05-01T07:54:17.467Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}
