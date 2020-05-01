@@ -28,6 +28,7 @@ class App extends Component {
             const accounts = await web3.eth.getAccounts();
 
             const purchaserAddress = accounts[0];
+            const compactPurchaserAddress = purchaserAddress.substring(0, 7) + "..." + purchaserAddress.substring(37);
 
             // Get contract instance
             const networkId = await web3.eth.net.getId();
@@ -43,14 +44,13 @@ class App extends Component {
                 accounts: accounts,
                 BC,
                 purchaserAddress,
+                compactPurchaserAddress,
                 isAdmin: (purchaserAddress === deployedNetwork.address)
             });
 
-            let gameData = await this.state.BC.methods.getGamedData(0).call();
-            let gameStart = gameData[0];
+            let totalUserBets = await this.state.BC.methods.totalUserBets().call();
             this.setState({
-                gameData,
-                gameStart
+                totalUserBets
             });
 
         } catch (error) {
@@ -75,6 +75,32 @@ class App extends Component {
             <div>
                 <nav>
                     <img src={require("./logo.png")} alt="BallinChain" />
+                    <strong>Search by team</strong><br />
+                    <input type="text" name="team" /><br />
+                    <br />
+                    <select>
+                        <option value="all">All games</option>
+                        <option value="my">My games</option>
+                        <option value="today">Today's games</option>
+                        <option value="past">Past games</option>
+                    </select>
+                    <hr />
+                    <strong>Sort by</strong><br />
+                    <select>
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                        <option value="lowest">Lowest total bid</option>
+                        <option value="highest">Highest total bid</option>
+                        <option value="alphabetical">A-Z</option>
+                    </select>
+                    <hr />
+                    <strong>Your account address</strong><br />
+                    {this.state.compactPurchaserAddress}<br />
+                    <br />
+                    <strong>Your total bets</strong><br />
+                    {this.state.totalUserBets}
+
+
                     {this.state.isAdmin && <div>TAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANNNNNNNNNNNNNEEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRRRRRRRRRRRRRRR</div>}
                     <footer>&copy; 2020</footer>
                 </nav>
