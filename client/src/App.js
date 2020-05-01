@@ -3,6 +3,7 @@ import BallinChainContract from "./BallinChain.json";
 import getWeb3 from "./utils/getWeb3.js";
 import GameFrame from "./components/GameFrame"
 import "./style/App.css";
+import Admin from "./components/Admin";
 
 class App extends Component {
     state = {
@@ -13,6 +14,8 @@ class App extends Component {
         loading: false,
         value: "",
         message: "",
+        contractOwner: "0x7cFe7dE72c30dd49b5bcEB0d6831Ab55bd718de0",
+        isAdminOpen: false
     };
 
     componentDidMount = async () => {
@@ -43,14 +46,6 @@ class App extends Component {
                 BC,
                 purchaserAddress,
             });
-
-            let gameData = await this.state.BC.methods.getGamedData(0).call();
-            let gameStart = gameData[0];
-            this.setState({
-                gameData,
-                gameStart
-            });
-
         } catch (error) {
             // Catch any errors for any of the above operations.
             alert(
@@ -80,8 +75,14 @@ class App extends Component {
                 <main>
                     <GameFrame state={this.state} />
                 </main>
+                <Admin isAdminOpen={this.state.isAdminOpen} toggleAdminOpen={this.toggleAdminOpen}/>
             </div>
         );
+    }
+
+    toggleAdminOpen(){
+        let temp = !this.state.isAdminOpen;
+        this.setState({isAdminOpen: temp});
     }
 }
 
