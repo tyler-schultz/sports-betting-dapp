@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import BallinChainContract from "./BallinChain.json";
 import getWeb3 from "./utils/getWeb3.js";
-import Bet from "./components/Bet"
+import GameFrame from "./components/GameFrame"
 import "./style/App.css";
 
 class App extends Component {
@@ -73,9 +73,12 @@ class App extends Component {
             <div>
                 <nav>
                     <img src={require("./logo.png")} alt="BallinChain" />
+                    <li>Home</li>
+                    <li>About</li>
+                    <footer>&copy; 2020</footer>
                 </nav>
                 <main>
-                    This is where the cards go
+                    <GameFrame state={this.state} />
                 </main>
             </div>
         );
