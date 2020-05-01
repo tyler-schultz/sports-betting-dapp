@@ -103,7 +103,7 @@ class App extends Component {
                 <main>
                     <GameFrame state={this.state} />
                 </main>
-                <Admin isAdminOpen={this.state.isAdminOpen} toggleAdminOpen={this.toggleAdminOpen}/>
+                <Admin isAdminOpen={this.state.isAdminOpen} toggleAdminOpen={this.toggleAdminOpen} BC={this.state.BC} purchaserAddress={this.state.purchaserAddress}/>
             </div>
         );
     }
