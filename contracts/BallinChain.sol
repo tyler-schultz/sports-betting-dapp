@@ -36,7 +36,7 @@ contract BallinChain is GameTemplate{
     }
 
     function betOnGame(uint256 _gameId, string memory _betTeam) public payable returns (bool){
-        require(msg.value > 0, "Bet must be greater than 0. Please try again.");
+        require(msg.value == 1 ether, "Bet must be 1 ether. Please try again.");
         require(keccak256(abi.encodePacked(games[_gameId].bets[msg.sender].betTeam)) == keccak256(abi.encodePacked("")) && games[_gameId].bets[msg.sender].betAmount == 0, "You've already placed a bet.");
         require(_gameId < games.length && _gameId >= 0, "Please enter a valid GameId.");
         require(keccak256(abi.encodePacked(_betTeam)) == keccak256(abi.encodePacked(games[_gameId].homeTeam.teamName)) || keccak256(abi.encodePacked(_betTeam)) == keccak256(abi.encodePacked(games[_gameId].awayTeam.teamName)), "Please enter a valid Team to bet on.");
@@ -63,7 +63,27 @@ contract BallinChain is GameTemplate{
         require(keccak256(abi.encodePacked(games[_gameId].bets[msg.sender].betTeam)) == keccak256(abi.encodePacked(games[_gameId].winner)), "Sorry, the team you bet on didn't win.");
         uint amount = games[_gameId].bets[msg.sender].betAmount;
         games[_gameId].bets[msg.sender].betAmount = 0;
-        //need to figure out how to split up the profit according to % of bid that made up that team amount
+        if(games[_gameId].homeTeam.totalBetters > 0 && games[_gameId].awayTeam.totalBetters > 0){
+            uint winningBetters = 0;
+            gameTotalBetters = gameTotalBetters.add(games[_gameId].awayTeam.totalBetters);
+            if(keccak256(abi.encodePacked(games[_gameId].homeTeam.teamName)) == keccak256(abi.encodePacked(games[_gameId].winner)){
+                winningBetters = winningBetters.add(games[_gameId].homeTeam.totalBetters);
+                uint winningsAmount = games[_gameId].finalPool;
+                winningsAmount = winningsAmount.sub(games[_gameId].homeTeam.totalAmount);
+                winningBetters = winningBetters.add(1);
+                winningsAmount = winningsAmount.div(winningBetters);
+                amount = amount.add(winningsAmount);
+            }
+            else{
+                winningBetters = winningBetters.add(games[_gameId].awayTeam.totalBetters);
+                uint winningsAmount = games[_gameId].finalPool;
+                winningsAmount = winningsAmount.sub(games[_gameId].awayTeam.totalAmount);
+                winningBetters = winningBetters.add(1);
+                winningsAmount = winningsAmount.div(winningBetters);
+                amount = amount.add(winningsAmount);
+            }
+        }
+        games[_gameId].pool = games[_gameId].pool.sub(amount);
         msg.sender.transfer(amount);
         emit WithdrawalEvent(msg.sender, amount);
         return true;
@@ -72,15 +92,7 @@ contract BallinChain is GameTemplate{
     function updateGameFinal(uint _gameId, string memory _winner, string memory _score) public only_owner returns (bool){
         games[_gameId].winner = _winner;
         games[_gameId].score = _score;
-        uint256 totalBets = 0;
-        totalBets = totalBets.add(games[_gameId].homeTeam.totalBetters);
-        totalBets = totalBets.add(games[_gameId].awayTeam.totalBetters);
-        if(totalBets > 1){
-            uint cut = games[_gameId].pool.div(10);
-            games[_gameId].pool = games[_gameId].pool.sub(cut);
-            games[_gameId].finalPool = games[_gameId].pool;
-            msg.sender.transfer(cut);
-        }
+        games[_gameId].finalPool = games[_gameId].pool;
         return true;
     }
 
@@ -110,8 +122,14 @@ contract BallinChain is GameTemplate{
         score = games[_gameId].score;
     }
 
-    function totalGamesToday(string calldata _date) external view returns(uint){
+    function totalGamesToday(string memory _date) external view returns(uint){
         return dateToGames[_date].length;
+    }
+
+    function getGameToday(string memory _date, uint _index) external view returns(uint){
+        uint[] memory game = dateToGames[_date];
+        uint id = game[_index];
+        return id;
     }
 
     function totalUserBets() external view returns(uint){
@@ -126,7 +144,9 @@ contract BallinChain is GameTemplate{
 
     function getGameFromHistory(uint _index) external view returns(uint){
         require(_index < userBettingHistory[msg.sender].length && _index > uint(-1), "Index out of bounds.");
-        return userBettingHistory[msg.sender][_index];
+        uint[] memory game = userBettingHistory[msg.sender];
+        uint id = game[_index];
+        return id;
     }
 
     modifier only_owner(){
