@@ -46,6 +46,7 @@ contract BallinChain is GameTemplate{
         games[_gameId].pool = games[_gameId].pool.add(betAmount);
         games[_gameId].bets[msg.sender].betTeam = _betTeam;
         games[_gameId].bets[msg.sender].betAmount = betAmount;
+        userBettingHistory[msg.sender].push(_gameId);
         if(keccak256(abi.encodePacked(_betTeam)) == keccak256(abi.encodePacked(games[_gameId].homeTeam.teamName))){
             games[_gameId].homeTeam.totalBetters = games[_gameId].homeTeam.totalBetters.add(1);
         }
@@ -57,6 +58,7 @@ contract BallinChain is GameTemplate{
     }
 
     function withdraw(uint _gameId) public returns (bool){
+        require(games[_gameId].bets[msg.sender].betAmount > 0, "There is nothing to withdraw.");
         require(keccak256(abi.encodePacked(games[_gameId].winner)) != keccak256(abi.encodePacked("")) && keccak256(abi.encodePacked(games[_gameId].score)) != keccak256(abi.encodePacked("")), "Final scores have not been entered yet.");
         require(keccak256(abi.encodePacked(games[_gameId].bets[msg.sender].betTeam)) == keccak256(abi.encodePacked(games[_gameId].winner)), "Sorry, the team you bet on didn't win.");
         uint amount = games[_gameId].bets[msg.sender].betAmount;
@@ -91,7 +93,6 @@ contract BallinChain is GameTemplate{
     }
 
     function gameBalance(uint _gameId) external view returns(uint){
-        require(now < games[_gameId].game_start, "Sorry, you can no longer see the balance of this game.");
         return games[_gameId].pool;
     }
 
@@ -121,6 +122,11 @@ contract BallinChain is GameTemplate{
         bettingTeam = games[_gameId].bets[msg.sender].betTeam;
         betAmount = games[_gameId].bets[msg.sender].betAmount;
 
+    }
+
+    function getGameFromHistory(uint _index) external view returns(uint){
+        require(_index < userBettingHistory[msg.sender].length && _index > uint(-1), "Index out of bounds.");
+        return userBettingHistory[msg.sender][_index];
     }
 
     modifier only_owner(){
