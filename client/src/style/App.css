@@ -1,0 +1,31 @@
+nav {
+	min-height: 100vh;
+	width: 200px;
+	background: #ddd;
+	text-align: center;
+	position: fixed;
+}
+
+nav img {
+	width: 100%;
+}
+
+nav footer {
+	position: absolute;
+	bottom: 10px;
+	width: 100%;
+}
+
+main {
+	min-height: 100vh;
+	width: calc(100vw - 200px);
+	float: right;
+	background: #fff;
+}
+
+main h1 {
+	text-align: center;
+	padding: 20px;
+	font-size: 50px;
+	margin: 0;
+}
