@@ -13,6 +13,7 @@ class App extends Component {
         loading: false,
         value: "",
         message: "",
+        isAdmin: false
     };
 
     componentDidMount = async () => {
@@ -42,6 +43,7 @@ class App extends Component {
                 accounts: accounts,
                 BC,
                 purchaserAddress,
+                isAdmin: (purchaserAddress === deployedNetwork.address)
             });
 
             let gameData = await this.state.BC.methods.getGamedData(0).call();
@@ -73,8 +75,7 @@ class App extends Component {
             <div>
                 <nav>
                     <img src={require("./logo.png")} alt="BallinChain" />
-                    <li>Home</li>
-                    <li>About</li>
+                    {this.state.isAdmin && <div>TAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANNNNNNNNNNNNNEEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRRRRRRRRRRRRRRR</div>}
                     <footer>&copy; 2020</footer>
                 </nav>
                 <main>
