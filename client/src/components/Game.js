@@ -4,27 +4,29 @@ import {
     CardTitle, CardSubtitle, Button
 } from 'reactstrap';
 
+import Model from "./Model";
+import Bet from "./Bet";
 class Game extends Component{
     constructor(props) {
         super(props);
 
         let state = {
             gameID: null,
-            gameDate: null
+            gameDate: new Date()
         };
     }
+
  render() {
 
-
-
-    return (
+     return (
                 <div>
                     <Card>
+                        <CardImg top width="100%" src="../basketball.jpg" alt="Card image" />
                         <CardBody>
-                            <CardTitle>Game Number 1</CardTitle>
-                            <CardSubtitle>TEST FOR DATE</CardSubtitle>
+                            <CardTitle>Game Number {this.props.gameID}</CardTitle>
+                            <CardSubtitle>{this.props.gameDate}</CardSubtitle>
                             <CardText>TEST IF CARD RENDERED.</CardText>
-                            <Button>TEST</Button>
+                            <Model>" "</Model>
                         </CardBody>
                     </Card>
                 </div>);
