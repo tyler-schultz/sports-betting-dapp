@@ -24,6 +24,11 @@ class App extends Component {
             isAdmin: false
         };
         this.toggleAdminOpen = this.toggleAdminOpen.bind(this);
+        this.fetchGameData = this.fetchGameData.bind(this);
+        this.createGame = this.createGame.bind(this);
+        this.updateGameFinal = this.updateGameFinal.bind(this);
+        this.cancelGame = this.cancelGame.bind(this);
+        this.ownerWithdraw = this.ownerWithdraw.bind(this);
     }
 
     componentDidMount = async () => {
@@ -53,7 +58,7 @@ class App extends Component {
             this.setState({
                 web3: web3,
                 accounts: accounts,
-                BC,
+                BC: BC,
                 purchaserAddress,
                 isAdmin: (purchaserAddress === this.state.contractOwner),
                 compactPurchaserAddress,
@@ -99,13 +104,16 @@ class App extends Component {
                     <strong>Your total bets</strong><br />
                     {this.state.totalUserBets}
                     <br />
+                    <br />
                     {this.state.isAdmin && <Button onClick={this.toggleAdminOpen}>Admin</Button>}
                     <footer>&copy; 2020</footer>
                 </nav>
                 <main>
                     <GameFrame state={this.state} />
                 </main>
-                <Admin isAdminOpen={this.state.isAdminOpen} toggleAdminOpen={this.toggleAdminOpen} BC={this.state.BC} purchaserAddress={this.state.purchaserAddress}/>
+                <Admin isAdminOpen={this.state.isAdminOpen} toggleAdminOpen={this.toggleAdminOpen} BC={this.state.BC} purchaserAddress={this.state.purchaserAddress}
+                        fetchGameData={this.fetchGameData} createGame={this.createGame} updateGameFinal={this.updateGameFinal} cancelGame={this.cancelGame}
+                        ownerWithdraw={this.ownerWithdraw}/>
             </div>
         );
     }
@@ -113,6 +121,31 @@ class App extends Component {
     toggleAdminOpen(){
         let temp = !this.state.isAdminOpen;
         this.setState({isAdminOpen: temp});
+    }
+
+    async fetchGameData(gameId){
+        let gameID = +gameId;
+        let gameData = await this.state.BC.methods.getGamedData(gameID).call();
+        return gameData;
+    }
+
+    async createGame(gameStart, gameFinish, date, homeName, homeRecord, awayName, awayRecord){
+        await this.state.BC.methods.createGame(gameStart, gameFinish, date, homeName, homeRecord, awayName, awayRecord).send({from:this.state.purchaserAddress});
+    }
+
+    async updateGameFinal( gameID, winner, score){
+        let response = await this.state.BC.methods.updateGameFinal(gameID, winner, score).send({from:this.state.purchaserAddress});
+        return response;
+    }
+
+    async cancelGame( gameID, reason){
+        let response = await this.state.BC.methods.cancelGame(gameID, reason).send({from:this.state.purchaserAddress});
+        return response;
+    }
+
+    async ownerWithdraw(gameID){
+        let response = await this.state.BC.methods.ownerWithdraw(gameID).send({from:this.state.purchaserAddress});
+        return response;
     }
 }
 
