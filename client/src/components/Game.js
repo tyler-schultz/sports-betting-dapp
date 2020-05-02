@@ -3,36 +3,32 @@ import {
     Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle, Button
 } from 'reactstrap';
+
 class Game extends Component{
     constructor(props) {
         super(props);
 
         let state = {
-            gameID: 0,
-            gameDate: new Date("")
+            gameID: null,
+            gameDate: null
         };
-function checkDate(props) {
-    const todayDate = new Date();
-    if (todayDate !== this.state.gameDate) { //Catch older games
-        return (<div id="snackbar">Bets can only be placed on today's games!</div>
-        );
-    } else {
-        this.state.gameDate = todayDate;
     }
-}
+ render() {
+
+
 
     return (
                 <div>
                     <Card>
-                        <CardImg top width="318px"  src="./basketball.jpg" alt="Basketball image" />
                         <CardBody>
-                            <CardTitle>Game Number {this.state.gameID}</CardTitle>
-                            <CardSubtitle>{this.state.gameDate}</CardSubtitle>
+                            <CardTitle>Game Number 1</CardTitle>
+                            <CardSubtitle>TEST FOR DATE</CardSubtitle>
                             <CardText>TEST IF CARD RENDERED.</CardText>
-                            <Button>Button</Button>
+                            <Button>TEST</Button>
                         </CardBody>
                     </Card>
                 </div>);
-        }
+        }}
 
-}
+
+export default Game;
