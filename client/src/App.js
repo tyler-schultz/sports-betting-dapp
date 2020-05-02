@@ -5,6 +5,8 @@ import getWeb3 from "./utils/getWeb3.js";
 import GameFrame from "./components/GameFrame"
 import "./style/App.css";
 import Admin from "./components/Admin";
+import Game from "./components/Game";
+import Col from "reactstrap/es/Col";
 
 class App extends Component {
     constructor(props) {
@@ -104,7 +106,6 @@ class App extends Component {
                     <GameFrame state={this.state} />
                 </main>
                 <Admin isAdminOpen={this.state.isAdminOpen} toggleAdminOpen={this.toggleAdminOpen}/>
-
             </div>
         );
     }
