@@ -5,6 +5,8 @@ import getWeb3 from "./utils/getWeb3.js";
 import GameFrame from "./components/GameFrame"
 import "./style/App.css";
 import Admin from "./components/Admin";
+import Game from "./components/Game";
+import Col from "reactstrap/es/Col";
 
 class App extends Component {
     constructor(props) {
