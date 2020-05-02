@@ -1,4 +1,4 @@
-import React, { Button, Component } from "react";
+import React, { Component } from "react";
 
 class Bet extends Component {
     constructor(props) {
