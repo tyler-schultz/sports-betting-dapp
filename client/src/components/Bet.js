@@ -82,7 +82,7 @@ class Bet extends Component {
                                 Total Bets on Away Team: {this.props.gameData.awayBetters}
                             </Col>
                         </Row>
-                        Current Ether Bet on Game: {this.props.gameData.gameBalance}
+                        Current Ether Bet on This Game: {this.props.gameData.gameBalance}
                         <br />
                         <br />
                         PLACE BET:

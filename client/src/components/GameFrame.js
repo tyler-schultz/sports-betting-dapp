@@ -5,38 +5,53 @@ class GameFrame extends Component {
     constructor(props) {
         super(props);
 
-        let state = {};
+        this.state = {};
+
     }
-
-    render() {
-        return (
-            <div>
-                <h1>Today's Games</h1>
-                <Col>
-                    {this.renderTodayCards()}
-
-                </Col>
-                <h1>Past Games</h1>
-                <Col>
-
-                    }
-                </Col>
-            </div>
-        );
-    }
-
-    renderTodayCards(){
-        let todaysGames = [];;
-        for(let i = 0; i < this.props.BC.methods.getGamesToday("05-02-2020").call(); i++) {
-            let currId = this.props.BC.methods.getGameToday("05-02-2020", i).call();
-            let currGame = this.props.BC.methods.getGamedData(currId);
-            todaysGames.push({currGame});
-        }
-
-
+    render(){
         return(
             <div>
-                <Game id={}/>
+                <div>
+                    <h3>Today's Games</h3>
+                    {this.props.gameTable.map((game) => (
+                        <Game
+                            key={game.key}
+                            id={game.id}
+                            image={game.image}
+                            start={game.start}
+                            end={game.end}
+                            date={game.date}
+                            hName={game.hName}
+                            hRecord={game.hRecord}
+                            hBetters={game.hBetters}
+                            aName={game.aName}
+                            aRecord={game.aRecord}
+                            aBetters={game.aBetters}
+                            gameB={game.gameB}
+                        />
+                    ))}
+                </div>
+                <br />
+                <div>
+                    <h3>Game's You've Bet On</h3>
+                    {this.props.gameTable.map((game) => (
+                        <Game
+                            key={game.key}
+                            id={game.id}
+                            image={game.image}
+                            start={game.start}
+                            end={game.end}
+                            date={game.date}
+                            hName={game.hName}
+                            hRecord={game.hRecord}
+                            hBetters={game.hBetters}
+                            aName={game.aName}
+                            aRecord={game.aRecord}
+                            aBetters={game.aBetters}
+                            gameB={game.gameB}
+                        />
+                    ))}
+                </div>
             </div>
         );
     }

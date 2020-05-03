@@ -21,7 +21,8 @@ class App extends Component {
             message: "",
             contractOwner: "0x7cFe7dE72c30dd49b5bcEB0d6831Ab55bd718de0",
             isAdminOpen: false,
-            isAdmin: false
+            isAdmin: false,
+            gameTable: []
         };
         this.toggleAdminOpen = this.toggleAdminOpen.bind(this);
         this.fetchGameData = this.fetchGameData.bind(this);
@@ -29,6 +30,8 @@ class App extends Component {
         this.updateGameFinal = this.updateGameFinal.bind(this);
         this.cancelGame = this.cancelGame.bind(this);
         this.ownerWithdraw = this.ownerWithdraw.bind(this);
+        this.totalGamesToday = this.totalGamesToday.bind(this);
+        this.calcImage = this.calcImage.bind(this);
     }
 
     componentDidMount = async () => {
@@ -55,6 +58,39 @@ class App extends Component {
 
             // Write web3, accounts, and contract and all other info to the state
             let totalUserBets = await BC.methods.totalUserBets().call();
+            let gList = [];
+            let idList = [];
+            let bList = [];
+            let date = "05-02-2020";
+            let gamesToday = await BC.methods.totalGamesToday(date).call();
+            for (let i = 0; i < gamesToday; i++) {
+                let id = await BC.methods.getGameToday(date, i).call();
+                idList.push(id);
+                let game = await BC.methods.getGamedData(id).call();
+                gList.push(game);
+                let bal = await BC.methods.gameBalance(id).call();
+                bList.push(bal);
+            }
+            let gameTable = [];
+            for (let i = 0; i < gList.length; i++) {
+                gameTable.push(
+                    {
+                        key: i,
+                        id: idList[i],
+                        image: this.calcImage(gList[i].homeTeamName),
+                        start: gList[i].gameStart,
+                        end: gList[i].gameEnd,
+                        date: gList[i].date,
+                        hName: gList[i].homeTeamName,
+                        hRecord: gList[i].homeTeamRecord,
+                        hBetters: gList[i].homeTeamBetters,
+                        aName: gList[i].awayTeamName,
+                        aRecord: gList[i].awayTeamRecord,
+                        aBetters: gList[i].awayTeamBetters,
+                        gameB: bList[i]
+                    }
+                );
+            }
             this.setState({
                 web3: web3,
                 accounts: accounts,
@@ -62,7 +98,8 @@ class App extends Component {
                 purchaserAddress,
                 isAdmin: (purchaserAddress === this.state.contractOwner),
                 compactPurchaserAddress,
-                totalUserBets
+                totalUserBets,
+                gameTable: gameTable
             });
 
         } catch (error) {
@@ -109,7 +146,7 @@ class App extends Component {
                     <footer>&copy; 2020</footer>
                 </nav>
                 <main>
-                    <GameFrame state={this.state} />
+                    <GameFrame gameTable={this.state.gameTable}/>
                 </main>
                 <Admin isAdminOpen={this.state.isAdminOpen} toggleAdminOpen={this.toggleAdminOpen} BC={this.state.BC} purchaserAddress={this.state.purchaserAddress}
                         fetchGameData={this.fetchGameData} createGame={this.createGame} updateGameFinal={this.updateGameFinal} cancelGame={this.cancelGame}
@@ -123,6 +160,18 @@ class App extends Component {
         this.setState({isAdminOpen: temp});
     }
 
+    calcImage(name){
+        switch (name) {
+            case "Nets":
+                return "image";
+            case "Rockets":
+                return "../RocketsvClippers.png";
+            case "Mavericks":
+                return "../MavsvKings.png";
+            case "76ers":
+                return "../76ersvRaptors.png";
+        }
+    }
     async fetchGameData(gameId){
         let gameID = +gameId;
         let gameData = await this.state.BC.methods.getGamedData(gameID).call();
@@ -146,6 +195,33 @@ class App extends Component {
     async ownerWithdraw(gameID){
         let response = await this.state.BC.methods.ownerWithdraw(gameID).send({from:this.state.purchaserAddress});
         return response;
+    }
+
+    async totalGamesToday(date){
+        try {
+            let response = await this.state.BC.methods.totalGamesToday(date).call();
+            return response;
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    async getGameToday(date, index){
+        try {
+            let response = await this.state.BC.methods.getGameToday(date, index).call();
+            return response;
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    async gameBalance(gameId){
+        try {
+            let response = await this.state.BC.methods.gameBalance(gameId).call();
+            return response;
+        } catch (e) {
+            console.log(e);
+        }
     }
 }
 

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import image from "../NetsvBucks.png";
 import {
     Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle
@@ -28,14 +29,13 @@ class Game extends Component {
         };
 
         this.toggleBet = this.toggleBet.bind(this);
-        console.log(this.state.gameData);
     }
 
     render() {
         return (
             <div>
                 <Card onClick={this.toggleBet} >
-                    <CardImg top width="100%" src={this.state.gameData.gameI} alt="Card image"/>
+                    <CardImg top width="1%" src={this.state.gameData.gameImage} alt={this.state.gameData.gameImage}/>
                     <CardBody>
                         <CardTitle>Game ID: {this.state.gameData.gameId}</CardTitle>
                         <CardSubtitle>Date: {this.state.gameData.date}</CardSubtitle>
