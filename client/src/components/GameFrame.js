@@ -15,7 +15,7 @@ class GameFrame extends Component {
             <div>
                 <div>
                     <h1>Today's Games</h1>
-                    <CardDeck>
+                    <CardDeck style={{margin: "0 30px"}}>
                     {this.props.gameTable.map((game) => (
                         <Game
                             key={game.key}
@@ -31,6 +31,8 @@ class GameFrame extends Component {
                             aRecord={game.aRecord}
                             aBetters={game.aBetters}
                             gameB={game.gameB}
+                            winner={game.winner}
+                            score={game.score}
                             state={this.props.state}
                         />
                     ))}
@@ -39,7 +41,7 @@ class GameFrame extends Component {
                 <br />
                 <div>
                     <h1>Games You've Bet On</h1>
-                    <CardDeck style={{margin: "0"}}>
+                    <CardDeck style={{margin: "30px"}}>
                     {this.props.gameTable.map((game) => (
                         <Game
                             key={game.key}
