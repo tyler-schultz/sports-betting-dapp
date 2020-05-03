@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Game from "./Game";
-import Col from "reactstrap/es/Col";
+import BetGame from "./BetGame";
 import { CardDeck } from 'reactstrap';
 
 class GameFrame extends Component {
@@ -34,6 +34,7 @@ class GameFrame extends Component {
                             winner={game.winner}
                             score={game.score}
                             state={this.props.state}
+                            addToBetTable={this.props.addToBetTable}
                         />
                     ))}
                     </CardDeck>
@@ -42,9 +43,9 @@ class GameFrame extends Component {
                 <div>
                     <h1>Games You've Bet On</h1>
                     <CardDeck style={{margin: "30px"}}>
-                    {this.props.gameTable.map((game) => (
-                        <Game
-                            key={game.key}
+                    {this.props.betTable.map((game, index) => (
+                        <BetGame
+                            key={index}
                             id={game.id}
                             image={game.image}
                             start={game.start}
@@ -57,6 +58,8 @@ class GameFrame extends Component {
                             aRecord={game.aRecord}
                             aBetters={game.aBetters}
                             gameB={game.gameB}
+                            betTeam={game.betTeam}
+                            betAmount={game.betAmount}
                             state={this.props.state}
                         />
                     ))}

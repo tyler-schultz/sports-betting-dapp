@@ -1,5 +1,6 @@
 import React, { Component} from "react"
 import {Button, Modal, ModalHeader, ModalBody, FormGroup, Input, InputGroupAddon, InputGroupText, Col, Row} from "reactstrap";
+import "../style/App.css";
 
 class Bet extends Component {
     constructor(props) {
@@ -14,7 +15,6 @@ class Bet extends Component {
 
         this.changeTeam = this.changeTeam.bind(this);
         this.handleBet = this.handleBet.bind(this);
-        this.handleWithdraw = this.handleWithdraw.bind(this);
     }
 
     epochToLocal(timestamp) {
@@ -54,20 +54,27 @@ class Bet extends Component {
                     value: amount,
                     gas: 500000
                 });
-
+            let game = {
+                id: this.props.gameData.gameId,
+                image: this.props.gameData.gameImage,
+                start: this.props.gameData.timeStart,
+                end: this.props.gameData.gameEnd,
+                date: this.props.gameData.date,
+                hName: this.props.gameData.homeTeam,
+                hRecord: this.props.gameData.homeRecord,
+                hBetters: this.props.gameData.homeBetters,
+                aName: this.props.gameData.awayTeam,
+                aRecord: this.props.gameData.awayRecord,
+                aBetters: this.props.gameData.awayBetters,
+                gameB: this.props.gameData.gameBalance,
+                betTeam: this.state.team,
+                betAmount: 1,
+                winner: this.props.gameData.winner,
+                score: this.props.gameData.score
+            }
+            this.props.addToBetTable(game);
             alert("Bet placed successfully!");
         } catch (error) {
-            console.log(error);
-        }
-    };
-
-    handleWithdraw = async event => {
-        try {
-            await this.props.state.BC.methods
-                .withdraw(this.props.gameId);
-            alert("withdrawn");
-        } catch (error) {
-            alert("Bet failed!")
             console.log(error);
         }
     };

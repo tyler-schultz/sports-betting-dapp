@@ -5,13 +5,15 @@ import {
     CardTitle, CardSubtitle
 } from 'reactstrap';
 
-import Bet from "./Bet";
-class Game extends Component {
+import Withdraw from "./Withdraw";
+
+class BetGame extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             betOpen: false,
+            color: this.decideColor(),
             gameData: {
                 gameId: this.props.id,
                 gameImage: this.props.image,
@@ -25,39 +27,34 @@ class Game extends Component {
                 awayRecord: this.props.aRecord,
                 awayBetters: this.props.aBetters,
                 gameBalance: this.props.gameB,
+                betTeam: this.props.betTeam,
+                betAmount: this.props.betAmount,
                 winner: this.props.winner,
                 score: this.props.score
             }
         };
 
         this.toggleBet = this.toggleBet.bind(this);
+        this.decideColor = this.decideColor.bind(this);
+        this.clearBetAmount = this.clearBetAmount.bind(this);
     }
 
     render() {
-        let bgColor = (this.state.gameData.winner && this.state.gameData.score) ? "#AAA" : "#FFF";
-
         return (
             <div>
-                <Card onClick={this.toggleBet} style={{width: "275px", display: "inline-block", background: bgColor, textAlign: "center", cursor: "pointer"}} >
+                <Card onClick={this.toggleBet} style={{width: "300px", display: "inline-block"}} color={this.state.color}>
                     <CardImg top width="1%" src={this.state.gameData.gameImage} alt={this.state.gameData.gameImage}/>
                     <CardBody>
-                        <h2>{this.state.gameData.score}</h2><br />
                         <Col style={{float: "left", width: "50%", textAlign: "center"}}>
-                            <strong>{this.state.gameData.homeTeam}</strong><br />
-                            {this.state.gameData.homeRecord}<br />
-                            {this.state.gameData.homeBetters} Betters
+                            <strong>{this.state.gameData.homeTeam}</strong>
                         </Col>
                         <Col style={{float: "right", width: "50%", textAlign: "center"}}>
-                            <strong>{this.state.gameData.awayTeam}</strong><br />
-                            {this.state.gameData.awayRecord}<br />
-                            {this.state.gameData.awayBetters} Betters
+                            <strong>{this.state.gameData.awayTeam}</strong>
                         </Col>
                         <CardTitle>Game ID: {this.state.gameData.gameId}</CardTitle>
                         <CardSubtitle>Date: {this.state.gameData.date}</CardSubtitle>
                         <CardText>{this.state.gameData.homeTeam} VS {this.state.gameData.awayTeam}</CardText>
-                        <Bet betOpen={this.state.betOpen} toggleBet={this.toggleBet} gameData={this.state.gameData} gameId={this.state.gameData.gameId} state={this.props.state} addToBetTable={this.props.addToBetTable}/>
-                        Total Balance: {this.state.gameData.gameBalance/1e18 + " ether"}<br />
-                        Date: {this.state.gameData.date}
+                        <Withdraw betOpen={this.state.betOpen} toggleBet={this.toggleBet} gameData={this.state.gameData} gameId={this.state.gameData.gameId} state={this.props.state} addToBetTable={this.props.addToBetTable} clearBetAmount={this.clearBetAmount}/>
                     </CardBody>
                 </Card>
             </div>);
@@ -66,5 +63,26 @@ class Game extends Component {
     toggleBet() {
         this.setState({betOpen: !this.state.betOpen})
     }
+
+    decideColor(){
+        if(this.props.betAmount === 0){
+            return "danger";
+        }
+        else{
+            if(this.props.betTeam === this.props.winner){
+                return "success";
+            }
+            else if(this.props.winner == null){
+                return "warning";
+            }
+            return "danger";
+        }
+    }
+
+    clearBetAmount(){
+        let temp = this.state.gameData;
+        temp.betAmount = 0;
+        this.setState({gameData: temp});
+    }
 }
-export default Game;
+export default BetGame;
