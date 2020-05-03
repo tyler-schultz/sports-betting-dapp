@@ -24,7 +24,9 @@ class Game extends Component {
                 awayTeam: this.props.aName,
                 awayRecord: this.props.aRecord,
                 awayBetters: this.props.aBetters,
-                gameBalance: this.props.gameB
+                gameBalance: this.props.gameB,
+                winner: this.props.winner,
+                score: this.props.score
             }
         };
 
@@ -32,11 +34,14 @@ class Game extends Component {
     }
 
     render() {
+        let bgColor = (this.state.gameData.winner && this.state.gameData.score) ? "#AAA" : "#FFF";
+
         return (
             <div>
-                <Card onClick={this.toggleBet} style={{width: "300px", display: "inline-block"}} >
+                <Card onClick={this.toggleBet} style={{width: "275px", display: "inline-block", background: bgColor, textAlign: "center", cursor: "pointer"}} >
                     <CardImg top width="1%" src={this.state.gameData.gameImage} alt={this.state.gameData.gameImage}/>
                     <CardBody>
+                        <h2>{this.state.gameData.score}</h2><br />
                         <Col style={{float: "left", width: "50%", textAlign: "center"}}>
                             <strong>{this.state.gameData.homeTeam}</strong><br />
                             {this.state.gameData.homeRecord}<br />
@@ -46,8 +51,8 @@ class Game extends Component {
                             <strong>{this.state.gameData.awayTeam}</strong><br />
                             {this.state.gameData.awayRecord}<br />
                             {this.state.gameData.awayBetters} Betters
-                        </Col>
-                        Total Game Balance: {this.state.gameData.gameBalance}</br>
+                        </Col><br /><br />
+                        Total Balance: {this.state.gameData.gameBalance/1e18 + " ether"}<br />
                         Date: {this.state.gameData.date}
                         <Bet betOpen={this.state.betOpen} toggleBet={this.toggleBet} gameData={this.state.gameData} gameId={this.state.gameData.gameId} state={this.props.state}/>
                     </CardBody>

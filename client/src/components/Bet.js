@@ -34,7 +34,7 @@ class Bet extends Component {
                     gas: 500000
                 });
 
-            console.log("bet transferred");
+            alert("Bet placed successfully!");
         } catch (error) {
             console.log(error);
         }
@@ -46,6 +46,7 @@ class Bet extends Component {
                 .withdraw(this.props.gameId);
             console.log("withdrawn");
         } catch (error) {
+            alert("Bet failed!")
             console.log(error);
         }
     };
@@ -54,7 +55,7 @@ class Bet extends Component {
         return (
             <Modal isOpen={this.props.betOpen} toggle={this.props.toggleBet} size="lg">
                 <ModalHeader>
-                    <div> Bet On Game </div>
+                    <h1>Bet On Game</h1>
                     <ModalBody>
                         Game Date: {this.props.gameData.date}
                         <br />

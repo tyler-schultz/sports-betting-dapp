@@ -61,7 +61,7 @@ class App extends Component {
             let gList = [];
             let idList = [];
             let bList = [];
-            let date = "05-02-2020";
+            let date = "05-03-2020";
             let gamesToday = await BC.methods.totalGamesToday(date).call();
             for (let i = 0; i < gamesToday; i++) {
                 let id = await BC.methods.getGameToday(date, i).call();
@@ -87,7 +87,9 @@ class App extends Component {
                         aName: gList[i].awayTeamName,
                         aRecord: gList[i].awayTeamRecord,
                         aBetters: gList[i].awayTeamBetters,
-                        gameB: bList[i]
+                        gameB: bList[i],
+                        winner: gList[i].winner,
+                        score: gList[i].score
                     }
                 );
             }
