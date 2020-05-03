@@ -38,18 +38,17 @@ class Game extends Component {
                     <CardImg top width="1%" src={this.state.gameData.gameImage} alt={this.state.gameData.gameImage}/>
                     <CardBody>
                         <Col style={{float: "left", width: "50%", textAlign: "center"}}>
-                            <strong>{this.state.gameData.homeTeam}</strong>
-                            <h2>32</h2>
+                            <strong>{this.state.gameData.homeTeam}</strong><br />
+                            {this.state.gameData.homeRecord}<br />
+                            {this.state.gameData.homeBetters} Betters
                         </Col>
                         <Col style={{float: "right", width: "50%", textAlign: "center"}}>
-                            <strong>{this.state.gameData.awayTeam}</strong>
-                            <h2>24</h2>
+                            <strong>{this.state.gameData.awayTeam}</strong><br />
+                            {this.state.gameData.awayRecord}<br />
+                            {this.state.gameData.awayBetters} Betters
                         </Col>
-                        /*
-                        // <CardTitle>Game ID: {this.state.gameData.gameId}</CardTitle>
-                        // <CardSubtitle>Date: {this.state.gameData.date}</CardSubtitle>
-                        // <CardText>{this.state.gameData.homeTeam} VS {this.state.gameData.awayTeam}</CardText>
-                         */
+                        Total Game Balance: {this.state.gameData.gameBalance}</br>
+                        Date: {this.state.gameData.date}
                         <Bet betOpen={this.state.betOpen} toggleBet={this.toggleBet} gameData={this.state.gameData} gameId={this.state.gameData.gameId} state={this.props.state}/>
                     </CardBody>
                 </Card>
