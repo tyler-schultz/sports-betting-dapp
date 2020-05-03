@@ -1,26 +1,23 @@
-import React, { Component } from "react";
+import React, { Component} from "react"
+import {Button, Modal, ModalHeader, ModalBody, FormGroup, Input, InputGroupAddon, InputGroupText, Col, Row} from "reactstrap";
 
 class Bet extends Component {
     constructor(props) {
         super(props);
 
-        let state = {
+        this.state = {
             team: "",
-            betAmount: ""
+            betAmount: 1,
         };
 
         this.changeTeam = this.changeTeam.bind(this);
-        this.changeBetAmount = this.changeBetAmount.bind(this);
+        //this.changeBetAmount = this.changeBetAmount.bind(this);
         this.handleBet = this.handleBet.bind(this);
         this.handleWithdraw = this.handleWithdraw.bind(this);
     }
 
     changeTeam(event) {
         this.setState({team: event.target.value})
-    }
-
-    changeBetAmount(event) {
-        this.setState({betAmount: event.target.value});
     }
 
     handleBet = async event => {
@@ -58,17 +55,59 @@ class Bet extends Component {
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <label>
-                    Team:
-                    <input type="text" onChange={this.changeTeam} />
-                </label>
-                <label>
-                    Amount:
-                    <input type="number" onChange={this.changeBetAmount} />
-                </label>
-                <input type="button" onClick={this.handleBet} value="Bet" />
-            </form>
+            <Modal isOpen={this.props.betOpen} toggle={this.props.toggleBet} size="lg">
+                <ModalHeader>
+                    <div> Bet On Game </div>
+                    <ModalBody>
+                        Game Date: {this.props.gameData.date}
+                        <br />
+                        Game Start: {this.props.gameData.timeStart}
+                        <br />
+                        Game End: {this.props.gameData.gameEnd}
+                        <br />
+                        <br />
+                        <Row>
+                            <Col>
+                                Game Home Team: {this.props.gameData.homeTeam}
+                                <br />
+                                Game Home Record: {this.props.gameData.homeRecord}
+                                <br />
+                                Total Bets on Home Team: {this.props.gameData.homeBetters}
+                            </Col>
+                            <Col>
+                                Game Away Team: {this.props.gameData.awayTeam}
+                                <br />
+                                Game Away Record: {this.props.gameData.awayRecord}
+                                <br />
+                                Total Bets on Away Team: {this.props.gameData.awayBetters}
+                            </Col>
+                        </Row>
+                        Current Ether Bet on Game: {this.props.gameData.gameBalance}
+                        <br />
+                        <br />
+                        PLACE BET:
+                        <br />
+                        <FormGroup tag="fieldset">
+                            <Row>
+                                <Col>
+                                    <FormGroup check >
+                                        <Input type="radio" name="radio1" onClick={() =>{this.setState({team:this.props.gameData.homeTeam})}}/>{' '}
+                                        {this.props.gameData.homeTeam}
+                                    </FormGroup>
+                                </Col>
+                                <Col>
+                                    <FormGroup check>
+                                        <Input type="radio" name="radio1" onClick={() =>{this.setState({team:this.props.gameData.awayTeam})}}/>{' '}
+                                        {this.props.gameData.awayTeam}
+                                    </FormGroup>
+                                </Col>
+                            </Row>
+                        </FormGroup>
+                        <br />
+                        <Button>Bet 1 Ether on {this.state.team}</Button>
+                    </ModalBody>
+                </ModalHeader>
+            </Modal>
         );
     }
 }
