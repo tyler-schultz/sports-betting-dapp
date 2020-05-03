@@ -24,7 +24,9 @@ class Game extends Component {
                 awayTeam: this.props.aName,
                 awayRecord: this.props.aRecord,
                 awayBetters: this.props.aBetters,
-                gameBalance: this.props.gameB
+                gameBalance: this.props.gameB,
+                winner: this.props.winner,
+                score: this.props.score
             }
         };
 
@@ -39,17 +41,13 @@ class Game extends Component {
                     <CardBody>
                         <Col style={{float: "left", width: "50%", textAlign: "center"}}>
                             <strong>{this.state.gameData.homeTeam}</strong>
-                            <h2>32</h2>
                         </Col>
                         <Col style={{float: "right", width: "50%", textAlign: "center"}}>
                             <strong>{this.state.gameData.awayTeam}</strong>
-                            <h2>24</h2>
                         </Col>
-                        /*
-                        // <CardTitle>Game ID: {this.state.gameData.gameId}</CardTitle>
-                        // <CardSubtitle>Date: {this.state.gameData.date}</CardSubtitle>
-                        // <CardText>{this.state.gameData.homeTeam} VS {this.state.gameData.awayTeam}</CardText>
-                         */
+                        <CardTitle>Game ID: {this.state.gameData.gameId}</CardTitle>
+                        <CardSubtitle>Date: {this.state.gameData.date}</CardSubtitle>
+                        <CardText>{this.state.gameData.homeTeam} VS {this.state.gameData.awayTeam}</CardText>
                         <Bet betOpen={this.state.betOpen} toggleBet={this.toggleBet} gameData={this.state.gameData} gameId={this.state.gameData.gameId} state={this.props.state}/>
                     </CardBody>
                 </Card>
