@@ -9,11 +9,17 @@ class GameFrame extends Component {
     }
 
     render() {
+        let todaysDate = new Date();
         let todaysGames = [];
         let historyGames = [];
 
-        for(let i = 0; i < this.props.state.BC.methods.getGamesToday("TODAY").call(); i++) {
-            let currId = this.props.state.BC.methods.getGameToday("TODAY", i).call();
+        var mm = ('0' + todaysDate.getDate()).slice(-2);
+        var dd = ('0' + (todaysDate.getMonth() + 1)).slice(-2);
+        var yyyy = todaysDate.getFullYear().toString();
+        var todayString = mm + "-" + dd + "-" + yyyy;
+
+        for(let i = 0; i < this.props.state.BC.methods.totalGamesToday(todayString).call(); i++) {
+            let currId = this.props.state.BC.methods.getGameToday(todayString, i).call();
             let currGame = this.props.state.BC.methods.getGamedData(currId);
             todaysGames.push({currGame});
         }
@@ -64,4 +70,5 @@ class GameFrame extends Component {
         );
     }
 }
+
 export default GameFrame;
