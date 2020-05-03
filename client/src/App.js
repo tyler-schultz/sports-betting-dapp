@@ -59,7 +59,8 @@ class App extends Component {
             );
 
             // Write web3, accounts, and contract and all other info to the state
-            let totalUserBets = await BC.methods.totalUserBets().call();
+            console.log(purchaserAddress);
+            let totalUserBets = await BC.methods.totalUserBets().call({from: purchaserAddress});
             let gList = [];
             let idList = [];
             let bList = [];
@@ -96,7 +97,8 @@ class App extends Component {
                     }
                 );
                 for(let j = 0; j < totalUserBets; j++){
-                    let betId = await BC.methods.getGameFromHistory(j).call();
+                    let betId = await BC.methods.getGameFromHistory(j).call({from: purchaserAddress});
+                    console.log(idList[i]);
                     if(betId === idList[i]){
                         betTable.push(
                             {
