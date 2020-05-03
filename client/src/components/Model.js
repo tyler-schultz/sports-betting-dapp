@@ -18,7 +18,7 @@ const Model = (props) => {
                     <Bet></Bet>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" onClick={toggle}>Place Bet!</Button>{' '}
+                    <Button color="primary" onClick={this.state.handleBet}>Place Bet!</Button>{' '}
                     <Button color="secondary" onClick={toggle}>Cancel</Button>
                 </ModalFooter>
             </Modal>

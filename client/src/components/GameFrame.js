@@ -64,5 +64,4 @@ class GameFrame extends Component {
         );
     }
 }
-
 export default GameFrame;

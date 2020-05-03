@@ -35,15 +35,15 @@ class Game extends Component {
         return (
             <div>
             <Card onClick={this.toggleBet} >
-            <CardImg top width="100%" src={this.state.gameData.gameI} alt="Card image"/>
-            <CardBody>
-            <CardTitle>Game ID: {this.state.gameData.gameId}</CardTitle>
-        <CardSubtitle>Date: {this.state.gameData.date}</CardSubtitle>
-        <CardText>{this.state.gameData.homeTeam} VS {this.state.gameData.awayTeam}</CardText>
-        <Bet betOpen={this.state.betOpen} toggleBet={this.toggleBet} gameData={this.state.gameData}/>
-        </CardBody>
-        </Card>
-        </div>);
+                    <CardImg top width="100%" src={this.state.gameData.gameI} alt="Card image"/>
+                    <CardBody>
+                        <CardTitle>Game ID: {this.state.gameData.gameId}</CardTitle>
+                        <CardSubtitle>Date: {this.state.gameData.date}</CardSubtitle>
+                        <CardText>{this.state.gameData.homeTeam} VS {this.state.gameData.awayTeam}</CardText>
+                        <Bet betOpen={this.state.betOpen} toggleBet={this.toggleBet} gameData={this.state.gameData}/>
+                    </CardBody>
+                </Card>
+            </div>);
     }
 
     toggleBet() {
