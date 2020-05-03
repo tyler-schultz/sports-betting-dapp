@@ -6,7 +6,7 @@ import {
 
 import Model from "./Model";
 import Bet from "./Bet";
-class Game extends Component{
+class Game extends Component {
     constructor(props) {
         super(props);
 
