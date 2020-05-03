@@ -34,6 +34,7 @@ class GameFrame extends Component {
                             winner={game.winner}
                             score={game.score}
                             state={this.props.state}
+                            addToBetTable={this.props.addToBetTable}
                         />
                     ))}
                     </CardDeck>
@@ -42,9 +43,9 @@ class GameFrame extends Component {
                 <div>
                     <h1>Games You've Bet On</h1>
                     <CardDeck style={{margin: "0"}}>
-                    {this.props.gameTable.map((game) => (
+                    {this.props.betTable.map((game, index) => (
                         <Game
-                            key={game.key}
+                            key={index}
                             id={game.id}
                             image={game.image}
                             start={game.start}
@@ -58,6 +59,7 @@ class GameFrame extends Component {
                             aBetters={game.aBetters}
                             gameB={game.gameB}
                             state={this.props.state}
+                            addToBetTable={this.props.addToBetTable}
                         />
                     ))}
                     </CardDeck>

@@ -1,5 +1,6 @@
 import React, { Component} from "react"
 import {Button, Modal, ModalHeader, ModalBody, FormGroup, Input, InputGroupAddon, InputGroupText, Col, Row} from "reactstrap";
+import "../style/App.css";
 
 class Bet extends Component {
     constructor(props) {
@@ -35,6 +36,23 @@ class Bet extends Component {
                 });
 
             console.log("bet transferred");
+            let game = {
+                id: this.props.gameId,
+                image: this.props.gameImage,
+                start: this.props.timeStart,
+                end: this.props.gameEnd,
+                date: this.props.date,
+                hName: this.props.homeTeam,
+                hRecord: this.props.homeRecord,
+                hBetters: this.props.homeBetters,
+                aName: this.props.awayTeam,
+                aRecord: this.props.awayRecord,
+                aBetters: this.props.awayBetters,
+                gameB: this.props.gameBalance,
+                winner: this.props.winner,
+                score: this.props.score
+            }
+            this.props.addToBetTable(game);
         } catch (error) {
             console.log(error);
         }
@@ -52,7 +70,7 @@ class Bet extends Component {
 
     render() {
         return (
-            <Modal isOpen={this.props.betOpen} toggle={this.props.toggleBet} size="lg">
+            <Modal isOpen={this.props.betOpen} toggle={this.props.toggleBet} className="lg">
                 <ModalHeader>
                     <div> Bet On Game </div>
                     <ModalBody>
@@ -69,16 +87,17 @@ class Bet extends Component {
                                 <br />
                                 Game Home Record: {this.props.gameData.homeRecord}
                                 <br />
-                                Total Bets on Home Team: {this.props.gameData.homeBetters}
+                                Bets on Home Team: {this.props.gameData.homeBetters}
                             </Col>
                             <Col>
                                 Game Away Team: {this.props.gameData.awayTeam}
                                 <br />
                                 Game Away Record: {this.props.gameData.awayRecord}
                                 <br />
-                                Total Bets on Away Team: {this.props.gameData.awayBetters}
+                                Bets on Away Team: {this.props.gameData.awayBetters}
                             </Col>
                         </Row>
+                        <br />
                         Current Ether Bet on This Game: {this.props.gameData.gameBalance}
                         <br />
                         <br />

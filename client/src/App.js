@@ -22,7 +22,8 @@ class App extends Component {
             contractOwner: "0x7cFe7dE72c30dd49b5bcEB0d6831Ab55bd718de0",
             isAdminOpen: false,
             isAdmin: false,
-            gameTable: []
+            gameTable: [],
+            betTable: [],
         };
         this.toggleAdminOpen = this.toggleAdminOpen.bind(this);
         this.fetchGameData = this.fetchGameData.bind(this);
@@ -32,6 +33,7 @@ class App extends Component {
         this.ownerWithdraw = this.ownerWithdraw.bind(this);
         this.totalGamesToday = this.totalGamesToday.bind(this);
         this.calcImage = this.calcImage.bind(this);
+        this.addToBetTable = this.addToBetTable.bind(this);
     }
 
     componentDidMount = async () => {
@@ -72,6 +74,7 @@ class App extends Component {
                 bList.push(bal);
             }
             let gameTable = [];
+            let betTable = [];
             for (let i = 0; i < gList.length; i++) {
                 gameTable.push(
                     {
@@ -92,6 +95,30 @@ class App extends Component {
                         score: gList[i].score
                     }
                 );
+                for(let j = 0; j < totalUserBets; j++){
+                    let betId = await BC.methods.getGameFromHistory(j).call();
+                    if(betId === idList[i]){
+                        betTable.push(
+                            {
+                                key: i,
+                                id: idList[i],
+                                image: this.calcImage(gList[i].homeTeamName),
+                                start: gList[i].gameStart,
+                                end: gList[i].gameEnd,
+                                date: gList[i].date,
+                                hName: gList[i].homeTeamName,
+                                hRecord: gList[i].homeTeamRecord,
+                                hBetters: gList[i].homeTeamBetters,
+                                aName: gList[i].awayTeamName,
+                                aRecord: gList[i].awayTeamRecord,
+                                aBetters: gList[i].awayTeamBetters,
+                                gameB: bList[i],
+                                winner: gList[i].winner,
+                                score: gList[i].score
+                            }
+                        );
+                    }
+                }
             }
             this.setState({
                 web3: web3,
@@ -101,7 +128,8 @@ class App extends Component {
                 isAdmin: (purchaserAddress === this.state.contractOwner),
                 compactPurchaserAddress,
                 totalUserBets,
-                gameTable: gameTable
+                gameTable: gameTable,
+                betTable: betTable
             });
 
         } catch (error) {
@@ -148,7 +176,7 @@ class App extends Component {
                     <footer>&copy; 2020</footer>
                 </nav>
                 <main>
-                    <GameFrame gameTable={this.state.gameTable} state={this.state} style={{padding: "50px"}} />
+                    <GameFrame gameTable={this.state.gameTable} betTable={this.state.betTable} state={this.state} style={{padding: "50px"}} addToBetTable={this.addToBetTable}/>
                 </main>
                 <Admin isAdminOpen={this.state.isAdminOpen} toggleAdminOpen={this.toggleAdminOpen} BC={this.state.BC} purchaserAddress={this.state.purchaserAddress}
                         fetchGameData={this.fetchGameData} createGame={this.createGame} updateGameFinal={this.updateGameFinal} cancelGame={this.cancelGame}
@@ -187,6 +215,12 @@ class App extends Component {
     async updateGameFinal( gameID, winner, score){
         let response = await this.state.BC.methods.updateGameFinal(gameID, winner, score).send({from:this.state.purchaserAddress});
         return response;
+    }
+
+    addToBetTable(game){
+        let temp = this.state.betTable;
+        temp.push(game);
+        this.setState({betTable: temp});
     }
 
     async cancelGame( gameID, reason){

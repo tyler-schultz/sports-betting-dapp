@@ -48,7 +48,7 @@ class Game extends Component {
                         <CardTitle>Game ID: {this.state.gameData.gameId}</CardTitle>
                         <CardSubtitle>Date: {this.state.gameData.date}</CardSubtitle>
                         <CardText>{this.state.gameData.homeTeam} VS {this.state.gameData.awayTeam}</CardText>
-                        <Bet betOpen={this.state.betOpen} toggleBet={this.toggleBet} gameData={this.state.gameData} gameId={this.state.gameData.gameId} state={this.props.state}/>
+                        <Bet betOpen={this.state.betOpen} toggleBet={this.toggleBet} gameData={this.state.gameData} gameId={this.state.gameData.gameId} state={this.props.state} addToBetTable={this.props.addToBetTable}/>
                     </CardBody>
                 </Card>
             </div>);
