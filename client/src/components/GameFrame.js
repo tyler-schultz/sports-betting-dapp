@@ -12,15 +12,15 @@ class GameFrame extends Component {
         let todaysGames = [];
         let historyGames = [];
 
-        for(int i = 0; i < this.props.BC.methods.getGamesToday("TODAY").call(); i++) {
-            let currId = this.props.BC.methods.getGameToday("TODAY", i).call();
-            let currGame = this.props.BC.methods.getGamedData(currId);
+        for(let i = 0; i < this.props.state.BC.methods.getGamesToday("TODAY").call(); i++) {
+            let currId = this.props.state.BC.methods.getGameToday("TODAY", i).call();
+            let currGame = this.props.state.BC.methods.getGamedData(currId);
             todaysGames.push({currGame});
         }
 
-        for(int j = 0; j < this.props.BC.methods.totalUserBets().call(); j++) {
-            let currId = this.props.BC.methods.getGamefromHistory(j).call();
-            let currGame = this.props.BC.methods.getGamedData(currId);
+        for(let j = 0; j < this.props.state.BC.methods.totalUserBets().call(); j++) {
+            let currId = this.props.state.BC.methods.getGamefromHistory(j).call();
+            let currGame = this.props.state.BC.methods.getGamedData(currId);
             historyGames.push({currGame});
         }
 
@@ -28,7 +28,7 @@ class GameFrame extends Component {
             <div>
                 <h1>Today's Games</h1>
                 <Col>
-                    {todaysGames.map(game)=><Game
+                    {todaysGames.map(game => { return <Game
                         id={game.gameId}
                         image={game.image}
                         timeStart={game.start}
@@ -40,12 +40,12 @@ class GameFrame extends Component {
                         aName={game.aName}
                         aRecord={game.aRecord}
                         aBetters={game.aBetters}
-                        gameB={game.gameB}/>
+                        gameB={game.gameB}/>})
                     }
                 </Col>
                 <h1>Past Games</h1>
                 <Col>
-                    {historyGames.map(game)=><Game
+                    {historyGames.map(game => { return <Game
                         id={game.gameId}
                         image={game.image}
                         timeStart={game.start}
@@ -57,12 +57,11 @@ class GameFrame extends Component {
                         aName={game.aName}
                         aRecord={game.aRecord}
                         aBetters={game.aBetters}
-                        gameB={game.gameB}/>
+                        gameB={game.gameB}/>})
                     }
                 </Col>
             </div>
         );
     }
 }
-
 export default GameFrame;

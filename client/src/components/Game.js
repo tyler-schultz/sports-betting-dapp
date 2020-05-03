@@ -34,7 +34,7 @@ class Game extends Component {
     render() {
         return (
             <div>
-                <Card onClick={this.toggleBet} >
+            <Card onClick={this.toggleBet} >
                     <CardImg top width="100%" src={this.state.gameData.gameI} alt="Card image"/>
                     <CardBody>
                         <CardTitle>Game ID: {this.state.gameData.gameId}</CardTitle>
