@@ -5,70 +5,55 @@ class GameFrame extends Component {
     constructor(props) {
         super(props);
 
-        let state = {};
+        this.state = {};
+
     }
-
-    render() {
-        let todaysDate = new Date();
-        let todaysGames = [];
-        let historyGames = [];
-
-        var mm = ('0' + todaysDate.getDate()).slice(-2);
-        var dd = ('0' + (todaysDate.getMonth() + 1)).slice(-2);
-        var yyyy = todaysDate.getFullYear().toString();
-        var todayString = mm + "-" + dd + "-" + yyyy;
-
-        for(let i = 0; i < this.props.state.BC.methods.totalGamesToday(todayString).call(); i++) {
-            let currId = this.props.state.BC.methods.getGameToday(todayString, i).call();
-            let currGame = this.props.state.BC.methods.getGamedData(currId);
-            todaysGames.push({currGame});
-        }
-
-        for(let j = 0; j < this.props.state.BC.methods.totalUserBets().call(); j++) {
-            let currId = this.props.state.BC.methods.getGamefromHistory(j).call();
-            let currGame = this.props.state.BC.methods.getGamedData(currId);
-            historyGames.push({currGame});
-        }
-
-        return (
+    render(){
+        return(
             <div>
-                <h1>Today's Games</h1>
-                <Col>
-                    {todaysGames.map(game => { return <Game
-                        id={game.gameId}
-                        image={game.image}
-                        timeStart={game.start}
-                        end={game.end}
-                        date={game.date}
-                        hName={game.hName}
-                        hRecord={game.hRecord}
-                        hBetters={game.hBetters}
-                        aName={game.aName}
-                        aRecord={game.aRecord}
-                        aBetters={game.aBetters}
-                        gameB={game.gameB}/>})
-                    }
-                </Col>
-                <h1>Past Games</h1>
-                <Col>
-                    {historyGames.map(game => { return <Game
-                        id={game.gameId}
-                        image={game.image}
-                        timeStart={game.start}
-                        end={game.end}
-                        date={game.date}
-                        hName={game.hName}
-                        hRecord={game.hRecord}
-                        hBetters={game.hBetters}
-                        aName={game.aName}
-                        aRecord={game.aRecord}
-                        aBetters={game.aBetters}
-                        gameB={game.gameB}/>})
-                    }
-                </Col>
+                <div>
+                    <h3>Today's Games</h3>
+                    {this.props.gameTable.map((game) => (
+                        <Game
+                            key={game.key}
+                            id={game.id}
+                            image={game.image}
+                            start={game.start}
+                            end={game.end}
+                            date={game.date}
+                            hName={game.hName}
+                            hRecord={game.hRecord}
+                            hBetters={game.hBetters}
+                            aName={game.aName}
+                            aRecord={game.aRecord}
+                            aBetters={game.aBetters}
+                            gameB={game.gameB}
+                        />
+                    ))}
+                </div>
+                <br />
+                <div>
+                    <h3>Game's You've Bet On</h3>
+                    {this.props.gameTable.map((game) => (
+                        <Game
+                            key={game.key}
+                            id={game.id}
+                            image={game.image}
+                            start={game.start}
+                            end={game.end}
+                            date={game.date}
+                            hName={game.hName}
+                            hRecord={game.hRecord}
+                            hBetters={game.hBetters}
+                            aName={game.aName}
+                            aRecord={game.aRecord}
+                            aBetters={game.aBetters}
+                            gameB={game.gameB}
+                        />
+                    ))}
+                </div>
             </div>
         );
     }
 }
-
 export default GameFrame;
