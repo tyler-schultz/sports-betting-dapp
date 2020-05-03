@@ -51,7 +51,7 @@ class Game extends Component {
                             <strong>{this.state.gameData.awayTeam}</strong><br />
                             {this.state.gameData.awayRecord}<br />
                             {this.state.gameData.awayBetters} Betters
-                        </Col><br /><br />
+                        </Col>
                         Total Balance: {this.state.gameData.gameBalance/1e18 + " ether"}<br />
                         Date: {this.state.gameData.date}
                         <Bet betOpen={this.state.betOpen} toggleBet={this.toggleBet} gameData={this.state.gameData} gameId={this.state.gameData.gameId} state={this.props.state}/>
