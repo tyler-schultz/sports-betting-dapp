@@ -13,7 +13,6 @@ class Bet extends Component {
 
         this.changeTeam = this.changeTeam.bind(this);
         this.handleBet = this.handleBet.bind(this);
-        this.handleWithdraw = this.handleWithdraw.bind(this);
     }
 
     changeTeam(event) {
@@ -37,32 +36,24 @@ class Bet extends Component {
 
             console.log("bet transferred");
             let game = {
-                id: this.props.gameId,
-                image: this.props.gameImage,
-                start: this.props.timeStart,
-                end: this.props.gameEnd,
-                date: this.props.date,
-                hName: this.props.homeTeam,
-                hRecord: this.props.homeRecord,
-                hBetters: this.props.homeBetters,
-                aName: this.props.awayTeam,
-                aRecord: this.props.awayRecord,
-                aBetters: this.props.awayBetters,
-                gameB: this.props.gameBalance,
-                winner: this.props.winner,
-                score: this.props.score
+                id: this.props.gameData.gameId,
+                image: this.props.gameData.gameImage,
+                start: this.props.gameData.timeStart,
+                end: this.props.gameData.gameEnd,
+                date: this.props.gameData.date,
+                hName: this.props.gameData.homeTeam,
+                hRecord: this.props.gameData.homeRecord,
+                hBetters: this.props.gameData.homeBetters,
+                aName: this.props.gameData.awayTeam,
+                aRecord: this.props.gameData.awayRecord,
+                aBetters: this.props.gameData.awayBetters,
+                gameB: this.props.gameData.gameBalance,
+                betTeam: this.state.team,
+                betAmount: 1,
+                winner: this.props.gameData.winner,
+                score: this.props.gameData.score
             }
             this.props.addToBetTable(game);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    handleWithdraw = async event => {
-        try {
-            await this.props.state.BC.methods
-                .withdraw(this.props.gameId);
-            console.log("withdrawn");
         } catch (error) {
             console.log(error);
         }

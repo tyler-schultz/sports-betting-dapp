@@ -100,6 +100,7 @@ class App extends Component {
                     let betId = await BC.methods.getGameFromHistory(j).call({from: purchaserAddress});
                     console.log(idList[i]);
                     if(betId === idList[i]){
+                        let bet = await BC.methods.getGameBetData(betId).call({from: purchaserAddress});
                         betTable.push(
                             {
                                 key: i,
@@ -115,6 +116,8 @@ class App extends Component {
                                 aRecord: gList[i].awayTeamRecord,
                                 aBetters: gList[i].awayTeamBetters,
                                 gameB: bList[i],
+                                betTeam: bet[0],
+                                betAmount: bet[1],
                                 winner: gList[i].winner,
                                 score: gList[i].score
                             }
