@@ -34,21 +34,30 @@ class Game extends Component {
     }
 
     render() {
+        let bgColor = (this.state.gameData.winner && this.state.gameData.score) ? "#AAA" : "#FFF";
+
         return (
             <div>
-                <Card onClick={this.toggleBet} style={{width: "300px", display: "inline-block"}} >
+                <Card onClick={this.toggleBet} style={{width: "275px", display: "inline-block", background: bgColor, textAlign: "center", cursor: "pointer"}} >
                     <CardImg top width="1%" src={this.state.gameData.gameImage} alt={this.state.gameData.gameImage}/>
                     <CardBody>
+                        <h2>{this.state.gameData.score}</h2><br />
                         <Col style={{float: "left", width: "50%", textAlign: "center"}}>
-                            <strong>{this.state.gameData.homeTeam}</strong>
+                            <strong>{this.state.gameData.homeTeam}</strong><br />
+                            {this.state.gameData.homeRecord}<br />
+                            {this.state.gameData.homeBetters} Betters
                         </Col>
                         <Col style={{float: "right", width: "50%", textAlign: "center"}}>
-                            <strong>{this.state.gameData.awayTeam}</strong>
+                            <strong>{this.state.gameData.awayTeam}</strong><br />
+                            {this.state.gameData.awayRecord}<br />
+                            {this.state.gameData.awayBetters} Betters
                         </Col>
                         <CardTitle>Game ID: {this.state.gameData.gameId}</CardTitle>
                         <CardSubtitle>Date: {this.state.gameData.date}</CardSubtitle>
                         <CardText>{this.state.gameData.homeTeam} VS {this.state.gameData.awayTeam}</CardText>
                         <Bet betOpen={this.state.betOpen} toggleBet={this.toggleBet} gameData={this.state.gameData} gameId={this.state.gameData.gameId} state={this.props.state} addToBetTable={this.props.addToBetTable}/>
+                        Total Balance: {this.state.gameData.gameBalance/1e18 + " ether"}<br />
+                        Date: {this.state.gameData.date}
                     </CardBody>
                 </Card>
             </div>);

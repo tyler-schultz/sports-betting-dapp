@@ -11,7 +11,7 @@ const Model = (props) => {
 
     return (
         <div>
-            <Button  onClick={toggle}>Bet on Game!</Button>
+            <Button  onClick={toggle}>Bet on Game</Button>
             <Modal isOpen={modal} toggle={toggle} >
                 <ModalHeader toggle={toggle}>Bet on Game!</ModalHeader>
                 <ModalBody>

@@ -137,6 +137,8 @@ class App extends Component {
                 betTable: betTable
             });
 
+            document.title = "BallinChain";
+
         } catch (error) {
             // Catch any errors for any of the above operations.
             alert(

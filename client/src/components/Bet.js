@@ -9,10 +9,31 @@ class Bet extends Component {
         this.state = {
             team: "",
             betAmount: 1,
+            gameStartTime: null,
+            gameEndTime: null
         };
 
         this.changeTeam = this.changeTeam.bind(this);
         this.handleBet = this.handleBet.bind(this);
+    }
+
+    epochToLocal(timestamp) {
+        if(timestamp) {
+            let date = new Date(parseInt(timestamp));
+            let hours = date.getHours();
+            let minutes = date.getMinutes();
+            let mer = " AM";
+            if(hours = 0) {
+                hours = 12;
+            }
+            if(hours > 12) {
+                hours %= 12;
+                mer = " PM";
+            }
+            return date.getHours() + ":" + date.getMinutes() + mer;
+        }
+
+        return "Ongoing";
     }
 
     changeTeam(event) {
@@ -33,8 +54,6 @@ class Bet extends Component {
                     value: amount,
                     gas: 500000
                 });
-
-            console.log("bet transferred");
             let game = {
                 id: this.props.gameData.gameId,
                 image: this.props.gameData.gameImage,
@@ -54,6 +73,7 @@ class Bet extends Component {
                 score: this.props.gameData.score
             }
             this.props.addToBetTable(game);
+            alert("Bet placed successfully!");
         } catch (error) {
             console.log(error);
         }
@@ -61,59 +81,54 @@ class Bet extends Component {
 
     render() {
         return (
-            <Modal isOpen={this.props.betOpen} toggle={this.props.toggleBet} className="lg">
-                <ModalHeader>
-                    <div> Bet On Game </div>
-                    <ModalBody>
-                        Game Date: {this.props.gameData.date}
-                        <br />
-                        Game Start: {this.props.gameData.timeStart}
-                        <br />
-                        Game End: {this.props.gameData.gameEnd}
-                        <br />
-                        <br />
+            <Modal isOpen={this.props.betOpen} toggle={this.props.toggleBet} style={{textAlign: "center"}} size="lg">
+                <h1 style={{marginTop: "25px"}}>Bet on {this.props.gameData.homeTeam} vs. {this.props.gameData.awayTeam}</h1>
+                <ModalBody>
+                    <Col style={{float: "left", width: "33%"}}>Game Date: {this.props.gameData.date}</Col>
+                    <Col style={{float: "left", width: "33%"}}>Game Start: {this.epochToLocal(this.props.gameData.timeStart)}</Col>
+                    <Col style={{float: "right", width: "33%"}}>Game End: {this.epochToLocal(this.props.gameData.gameEnd)}</Col>
+                    <br />
+                    <br />
+                    <Row>
+                        <Col>
+                            Game Home Team: {this.props.gameData.homeTeam}
+                            <br />
+                            Game Home Record: {this.props.gameData.homeRecord}
+                            <br />
+                            Total Bets on Home Team: {this.props.gameData.homeBetters}
+                        </Col>
+                        <Col>
+                            Game Away Team: {this.props.gameData.awayTeam}
+                            <br />
+                            Game Away Record: {this.props.gameData.awayRecord}
+                            <br />
+                            Total Bets on Away Team: {this.props.gameData.awayBetters}
+                        </Col>
+                    </Row>
+                    Current Ether Bet on This Game: {this.props.gameData.gameBalance / 1e18}
+                    <br />
+                    <br />
+                    <h3>Choose Your Team</h3>
+                    <br />
+                    <FormGroup tag="fieldset">
                         <Row>
                             <Col>
-                                Game Home Team: {this.props.gameData.homeTeam}
-                                <br />
-                                Game Home Record: {this.props.gameData.homeRecord}
-                                <br />
-                                Bets on Home Team: {this.props.gameData.homeBetters}
+                                <FormGroup check >
+                                    <Input type="radio" name="radio1" onClick={() =>{this.setState({team:this.props.gameData.homeTeam})}}/>{' '}
+                                    {this.props.gameData.homeTeam}
+                                </FormGroup>
                             </Col>
                             <Col>
-                                Game Away Team: {this.props.gameData.awayTeam}
-                                <br />
-                                Game Away Record: {this.props.gameData.awayRecord}
-                                <br />
-                                Bets on Away Team: {this.props.gameData.awayBetters}
+                                <FormGroup check>
+                                    <Input type="radio" name="radio1" onClick={() =>{this.setState({team:this.props.gameData.awayTeam})}}/>{' '}
+                                    {this.props.gameData.awayTeam}
+                                </FormGroup>
                             </Col>
                         </Row>
-                        <br />
-                        Current Ether Bet on This Game: {this.props.gameData.gameBalance}
-                        <br />
-                        <br />
-                        PLACE BET:
-                        <br />
-                        <FormGroup tag="fieldset">
-                            <Row>
-                                <Col>
-                                    <FormGroup check >
-                                        <Input type="radio" name="radio1" onClick={() =>{this.setState({team:this.props.gameData.homeTeam})}}/>{' '}
-                                        {this.props.gameData.homeTeam}
-                                    </FormGroup>
-                                </Col>
-                                <Col>
-                                    <FormGroup check>
-                                        <Input type="radio" name="radio1" onClick={() =>{this.setState({team:this.props.gameData.awayTeam})}}/>{' '}
-                                        {this.props.gameData.awayTeam}
-                                    </FormGroup>
-                                </Col>
-                            </Row>
-                        </FormGroup>
-                        <br />
-                        <Button onClick={this.handleBet}>Bet 1 Ether on {this.state.team}</Button>
-                    </ModalBody>
-                </ModalHeader>
+                    </FormGroup>
+                    <br />
+                    {this.state.team && <Button onClick={this.handleBet} style={{backgroundColor: "#800"}}>Bet 1 Ether on {this.state.team}</Button>}
+                </ModalBody>
             </Modal>
         );
     }
