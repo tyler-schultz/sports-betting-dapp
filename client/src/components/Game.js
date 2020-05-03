@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import image from "../NetsvBucks.png";
+import Col from "reactstrap/es/Col";
 import {
     Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle
@@ -34,13 +34,23 @@ class Game extends Component {
     render() {
         return (
             <div>
-                <Card onClick={this.toggleBet} >
+                <Card onClick={this.toggleBet} style={{width: "300px", display: "inline-block"}} >
                     <CardImg top width="1%" src={this.state.gameData.gameImage} alt={this.state.gameData.gameImage}/>
                     <CardBody>
-                        <CardTitle>Game ID: {this.state.gameData.gameId}</CardTitle>
-                        <CardSubtitle>Date: {this.state.gameData.date}</CardSubtitle>
-                        <CardText>{this.state.gameData.homeTeam} VS {this.state.gameData.awayTeam}</CardText>
-                        <Bet betOpen={this.state.betOpen} toggleBet={this.toggleBet} gameData={this.state.gameData}/>
+                        <Col style={{float: "left", width: "50%", textAlign: "center"}}>
+                            <strong>{this.state.gameData.homeTeam}</strong>
+                            <h2>32</h2>
+                        </Col>
+                        <Col style={{float: "right", width: "50%", textAlign: "center"}}>
+                            <strong>{this.state.gameData.awayTeam}</strong>
+                            <h2>24</h2>
+                        </Col>
+                        /*
+                        // <CardTitle>Game ID: {this.state.gameData.gameId}</CardTitle>
+                        // <CardSubtitle>Date: {this.state.gameData.date}</CardSubtitle>
+                        // <CardText>{this.state.gameData.homeTeam} VS {this.state.gameData.awayTeam}</CardText>
+                         */
+                        <Bet betOpen={this.state.betOpen} toggleBet={this.toggleBet} gameData={this.state.gameData} gameId={this.state.gameData.gameId} state={this.props.state}/>
                     </CardBody>
                 </Card>
             </div>);

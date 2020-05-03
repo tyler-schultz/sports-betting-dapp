@@ -146,7 +146,7 @@ class App extends Component {
                     <footer>&copy; 2020</footer>
                 </nav>
                 <main>
-                    <GameFrame gameTable={this.state.gameTable}/>
+                    <GameFrame gameTable={this.state.gameTable} state={this.state} style={{padding: "50px"}} />
                 </main>
                 <Admin isAdminOpen={this.state.isAdminOpen} toggleAdminOpen={this.toggleAdminOpen} BC={this.state.BC} purchaserAddress={this.state.purchaserAddress}
                         fetchGameData={this.fetchGameData} createGame={this.createGame} updateGameFinal={this.updateGameFinal} cancelGame={this.cancelGame}
@@ -163,13 +163,13 @@ class App extends Component {
     calcImage(name){
         switch (name) {
             case "Nets":
-                return "image";
+                return "NetsvBucks.png";
             case "Rockets":
-                return "../RocketsvClippers.png";
+                return "RocketsvClippers.png";
             case "Mavericks":
-                return "../MavsvKings.png";
+                return "MavsvKings.png";
             case "76ers":
-                return "../76ersvRaptors.png";
+                return "76ersvRaptors.png";
         }
     }
     async fetchGameData(gameId){

@@ -11,7 +11,6 @@ class Bet extends Component {
         };
 
         this.changeTeam = this.changeTeam.bind(this);
-        //this.changeBetAmount = this.changeBetAmount.bind(this);
         this.handleBet = this.handleBet.bind(this);
         this.handleWithdraw = this.handleWithdraw.bind(this);
     }
@@ -26,8 +25,6 @@ class Bet extends Component {
                 this.state.betAmount.toString(),
                 "ether"
             );
-
-            console.log(amount);
 
             await this.props.state.BC.methods
                 .betOnGame(this.props.gameId, this.state.team)
@@ -104,7 +101,7 @@ class Bet extends Component {
                             </Row>
                         </FormGroup>
                         <br />
-                        <Button>Bet 1 Ether on {this.state.team}</Button>
+                        <Button onClick={this.handleBet}>Bet 1 Ether on {this.state.team}</Button>
                     </ModalBody>
                 </ModalHeader>
             </Modal>
