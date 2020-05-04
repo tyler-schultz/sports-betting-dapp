@@ -45,6 +45,7 @@ class Admin extends Component {
         this.createGame = this.createGame.bind(this);
         this.updateFetchedGameData = this.updateFetchedGameData.bind(this);
         this.updateReason = this.updateReason.bind(this);
+        this.updateGameFinal = this.updateGameFinal.bind(this);
 
     }
 
@@ -280,8 +281,8 @@ class Admin extends Component {
         this.setState({awayRecord: record});
     }
 
-    updateGameId(gameID){
-        this.setState({gameId: gameID});
+    async updateGameId(gameID){
+        await this.setState({gameId: gameID});
         this.fetchGameData(gameID);
     }
 
