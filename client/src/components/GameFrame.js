@@ -58,6 +58,8 @@ class GameFrame extends Component {
                             aRecord={game.aRecord}
                             aBetters={game.aBetters}
                             gameB={game.gameB}
+                            winner={game.winner}
+                            score={game.score}
                             betTeam={game.betTeam}
                             betAmount={game.betAmount}
                             state={this.props.state}

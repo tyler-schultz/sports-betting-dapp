@@ -9,7 +9,7 @@ class Withdraw extends Component {
         this.state = {
             team: "",
             betAmount: 1,
-            color: "safe",
+            color: "success",
             canWithdraw: this.canWithdraw()
         };
 
@@ -82,7 +82,7 @@ class Withdraw extends Component {
     }
 
     canWithdraw(){
-        if(this.props.color == "success"){
+        if(this.props.color === "success"){
             return false;
         }
         else{
