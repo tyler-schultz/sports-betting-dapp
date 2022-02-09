@@ -1,1 +1,1 @@
-web: npm start cient/src/app.js
+web: npm start --prefix client
